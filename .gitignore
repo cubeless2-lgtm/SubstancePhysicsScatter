@@ -26,3 +26,12 @@ __pycache__/
 *.glb
 *.gltf
 *.zip
+# Periodic solver headers are required source files.
+!/experiments/
+/experiments/*
+!/experiments/periodic_solver/
+!/experiments/periodic_backend/
+/experiments/periodic_solver/*
+/experiments/periodic_backend/*
+!/experiments/periodic_solver/kernel.h
+!/experiments/periodic_backend/geometry.h
