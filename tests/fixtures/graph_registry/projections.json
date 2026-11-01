@@ -1,0 +1,2406 @@
+{
+  "composition": {
+    "source_uid": "8728c67b-495d-4585-905b-303a2d0f8a71",
+    "paths": {
+      "source": "D:\\pure_registry\\Source.sbs",
+      "noise": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+      "invert": "D:\\pure_registry\\stock\\invert.sbs"
+    },
+    "stock_uids": {
+      "noise": "11111111-1111-4111-8111-111111111111",
+      "invert": "22222222-2222-4222-8222-222222222222"
+    },
+    "typed_view": {
+      "package_uid": "8728c67b-495d-4585-905b-303a2d0f8a71",
+      "graphs": [
+        {
+          "identifier": "NativeMaskSource",
+          "uid": "1585407422",
+          "nodes": [
+            {
+              "id": "1585407423",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "11111111-1111-4111-8111-111111111111",
+                "package_path": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+                "identifier": "vertical_noise"
+              },
+              "output": {
+                "id": "Vertical_Noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585407424"
+              },
+              "inputs": []
+            },
+            {
+              "id": "1585407425",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "22222222-2222-4222-8222-222222222222",
+                "package_path": "D:\\pure_registry\\stock\\invert.sbs",
+                "identifier": "invert_grayscale"
+              },
+              "output": {
+                "id": "Invert_Grayscale",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585407426"
+              },
+              "inputs": [
+                {
+                  "id": "Source",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            },
+            {
+              "id": "1585407428",
+              "definition": "sbs::compositing::output",
+              "reference": null,
+              "output": {
+                "id": "native_mask",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": false,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585407427"
+              },
+              "inputs": [
+                {
+                  "id": "inputNodeOutput",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            }
+          ],
+          "literals": [
+            {
+              "owner": "graph",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407423",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407423",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407423",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407423",
+              "id": "Disorder",
+              "declaration": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueFloat",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0.0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeFloat",
+                  "id": "float",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407425",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407425",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407425",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585407425",
+              "id": "invert",
+              "declaration": {
+                "class_name": "SDTypeBool",
+                "id": "bool",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueBool",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": true,
+              "declarations": [
+                {
+                  "class_name": "SDTypeBool",
+                  "id": "bool",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeBool",
+                "id": "bool",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            }
+          ],
+          "edges": [
+            [
+              "1585407423",
+              "Vertical_Noise",
+              "1585407425",
+              "Source"
+            ],
+            [
+              "1585407425",
+              "Invert_Grayscale",
+              "1585407428",
+              "inputNodeOutput"
+            ]
+          ],
+          "terminal": {
+            "node_id": "1585407428",
+            "identifier": "native_mask",
+            "output_id": "native_mask",
+            "category": "Output",
+            "declarations": [
+              {
+                "class_name": "SDTypeTexture",
+                "id": "SDTypeTexture",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "selection": {
+      "package_path": "D:\\pure_registry\\Source.sbs",
+      "package_uid": "8728c67b-495d-4585-905b-303a2d0f8a71",
+      "graph_identifier": "NativeMaskSource",
+      "terminal_identifier": "native_mask"
+    },
+    "source_kind": "exact native saved XML"
+  },
+  "two_graphs": {
+    "source_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+    "paths": {
+      "source": "D:\\pure_registry\\Source.sbs",
+      "noise": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+      "invert": "D:\\pure_registry\\stock\\invert.sbs"
+    },
+    "stock_uids": {
+      "noise": "11111111-1111-4111-8111-111111111111",
+      "invert": "22222222-2222-4222-8222-222222222222"
+    },
+    "typed_view": {
+      "package_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+      "graphs": [
+        {
+          "identifier": "NativeMaskSource",
+          "uid": "1585448167",
+          "nodes": [
+            {
+              "id": "1585448168",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "11111111-1111-4111-8111-111111111111",
+                "package_path": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+                "identifier": "vertical_noise"
+              },
+              "output": {
+                "id": "Vertical_Noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448169"
+              },
+              "inputs": []
+            },
+            {
+              "id": "1585448170",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "22222222-2222-4222-8222-222222222222",
+                "package_path": "D:\\pure_registry\\stock\\invert.sbs",
+                "identifier": "invert_grayscale"
+              },
+              "output": {
+                "id": "Invert_Grayscale",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448171"
+              },
+              "inputs": [
+                {
+                  "id": "Source",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            },
+            {
+              "id": "1585448173",
+              "definition": "sbs::compositing::output",
+              "reference": null,
+              "output": {
+                "id": "native_mask",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": false,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448172"
+              },
+              "inputs": [
+                {
+                  "id": "inputNodeOutput",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            }
+          ],
+          "literals": [
+            {
+              "owner": "graph",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448168",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448168",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448168",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448168",
+              "id": "Disorder",
+              "declaration": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueFloat",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0.0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeFloat",
+                  "id": "float",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448170",
+              "id": "invert",
+              "declaration": {
+                "class_name": "SDTypeBool",
+                "id": "bool",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueBool",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": false,
+              "declarations": [
+                {
+                  "class_name": "SDTypeBool",
+                  "id": "bool",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeBool",
+                "id": "bool",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448170",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448170",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448170",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            }
+          ],
+          "edges": [
+            [
+              "1585448168",
+              "Vertical_Noise",
+              "1585448170",
+              "Source"
+            ],
+            [
+              "1585448170",
+              "Invert_Grayscale",
+              "1585448173",
+              "inputNodeOutput"
+            ]
+          ],
+          "terminal": {
+            "node_id": "1585448173",
+            "identifier": "native_mask",
+            "output_id": "native_mask",
+            "category": "Output",
+            "declarations": [
+              {
+                "class_name": "SDTypeTexture",
+                "id": "SDTypeTexture",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              }
+            ]
+          }
+        },
+        {
+          "identifier": "NativeNoiseReference",
+          "uid": "1585448174",
+          "nodes": [
+            {
+              "id": "1585448175",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "11111111-1111-4111-8111-111111111111",
+                "package_path": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+                "identifier": "vertical_noise"
+              },
+              "output": {
+                "id": "Vertical_Noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448176"
+              },
+              "inputs": []
+            },
+            {
+              "id": "1585448178",
+              "definition": "sbs::compositing::output",
+              "reference": null,
+              "output": {
+                "id": "reference_noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": false,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448177"
+              },
+              "inputs": [
+                {
+                  "id": "inputNodeOutput",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            }
+          ],
+          "literals": [
+            {
+              "owner": "graph",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "Disorder",
+              "declaration": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueFloat",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0.0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeFloat",
+                  "id": "float",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            }
+          ],
+          "edges": [
+            [
+              "1585448175",
+              "Vertical_Noise",
+              "1585448178",
+              "inputNodeOutput"
+            ]
+          ],
+          "terminal": {
+            "node_id": "1585448178",
+            "identifier": "reference_noise",
+            "output_id": "reference_noise",
+            "category": "Output",
+            "declarations": [
+              {
+                "class_name": "SDTypeTexture",
+                "id": "SDTypeTexture",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "selection": {
+      "package_path": "D:\\pure_registry\\Source.sbs",
+      "package_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+      "graph_identifier": "NativeNoiseReference",
+      "terminal_identifier": "reference_noise"
+    },
+    "source_kind": "exact native saved XML"
+  },
+  "noise_only": {
+    "source_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+    "paths": {
+      "source": "D:\\pure_registry\\Source.sbs",
+      "noise": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+      "invert": "D:\\pure_registry\\stock\\invert.sbs"
+    },
+    "stock_uids": {
+      "noise": "11111111-1111-4111-8111-111111111111",
+      "invert": "22222222-2222-4222-8222-222222222222"
+    },
+    "typed_view": {
+      "package_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+      "graphs": [
+        {
+          "identifier": "NativeNoiseReference",
+          "uid": "1585448174",
+          "nodes": [
+            {
+              "id": "1585448175",
+              "definition": "sbs::compositing::sbscompgraph_instance",
+              "reference": {
+                "package_uid": "11111111-1111-4111-8111-111111111111",
+                "package_path": "D:\\pure_registry\\stock\\vertical_noise.sbs",
+                "identifier": "vertical_noise"
+              },
+              "output": {
+                "id": "Vertical_Noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": true,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448176"
+              },
+              "inputs": []
+            },
+            {
+              "id": "1585448178",
+              "definition": "sbs::compositing::output",
+              "reference": null,
+              "output": {
+                "id": "reference_noise",
+                "category": "Output",
+                "declarations": [
+                  {
+                    "class_name": "SDTypeTexture",
+                    "id": "SDTypeTexture",
+                    "modifier": {
+                      "name": "Auto",
+                      "value": 0
+                    }
+                  }
+                ],
+                "flags": {
+                  "connectable": false,
+                  "read_only": true,
+                  "variadic": false,
+                  "primary": false,
+                  "function_only": false
+                },
+                "function": null,
+                "uid": "1585448177"
+              },
+              "inputs": [
+                {
+                  "id": "inputNodeOutput",
+                  "category": "Input",
+                  "declarations": [
+                    {
+                      "class_name": "SDTypeTexture",
+                      "id": "SDTypeTexture",
+                      "modifier": {
+                        "name": "Auto",
+                        "value": 0
+                      }
+                    }
+                  ],
+                  "flags": {
+                    "connectable": true,
+                    "read_only": true,
+                    "variadic": false,
+                    "primary": false,
+                    "function_only": false
+                  },
+                  "function": null
+                }
+              ]
+            }
+          ],
+          "literals": [
+            {
+              "owner": "graph",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "graph",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$outputsize",
+              "declaration": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt2",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": [
+                9,
+                9
+              ],
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt2",
+                  "id": "int2",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt2",
+                "id": "int2",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$format",
+              "declaration": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueEnum",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 1,
+              "value_id": "16_bits_per_channel",
+              "declarations": [
+                {
+                  "class_name": "SDTypeEnum",
+                  "id": "sbs::compositing::format",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                },
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeEnum",
+                "id": "sbs::compositing::format",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "$randomseed",
+              "declaration": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueInt",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeInt",
+                  "id": "int",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeInt",
+                "id": "int",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            },
+            {
+              "owner": "1585448175",
+              "id": "Disorder",
+              "declaration": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "wrapper": "SDValueFloat",
+              "inheritance": {
+                "name": "Absolute",
+                "value": 2
+              },
+              "function": null,
+              "connections": [],
+              "value": 0.0,
+              "declarations": [
+                {
+                  "class_name": "SDTypeFloat",
+                  "id": "float",
+                  "modifier": {
+                    "name": "Auto",
+                    "value": 0
+                  }
+                }
+              ],
+              "value_type": {
+                "class_name": "SDTypeFloat",
+                "id": "float",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              },
+              "flags": {
+                "connectable": false,
+                "read_only": false,
+                "variadic": false,
+                "primary": false,
+                "function_only": false
+              }
+            }
+          ],
+          "edges": [
+            [
+              "1585448175",
+              "Vertical_Noise",
+              "1585448178",
+              "inputNodeOutput"
+            ]
+          ],
+          "terminal": {
+            "node_id": "1585448178",
+            "identifier": "reference_noise",
+            "output_id": "reference_noise",
+            "category": "Output",
+            "declarations": [
+              {
+                "class_name": "SDTypeTexture",
+                "id": "SDTypeTexture",
+                "modifier": {
+                  "name": "Auto",
+                  "value": 0
+                }
+              }
+            ]
+          }
+        }
+      ]
+    },
+    "selection": {
+      "package_path": "D:\\pure_registry\\Source.sbs",
+      "package_uid": "cb5621ae-f963-4dbf-a926-a2eb6bbd1560",
+      "graph_identifier": "NativeNoiseReference",
+      "terminal_identifier": "reference_noise"
+    },
+    "source_kind": "pure derivative of actual reference graph; removed other approved graph+unused dependency, not native copy proof"
+  }
+}

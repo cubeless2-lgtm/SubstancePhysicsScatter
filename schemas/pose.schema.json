@@ -1,0 +1,13 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Physics Scatter schema v2 pose",
+  "type":"object",
+  "required":["id","asset_id","position","rotation","scale"],
+  "properties":{
+    "id":{"type":"integer","minimum":0},
+    "asset_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "position":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"number"}},
+    "rotation":{"type":"array","minItems":4,"maxItems":4,"items":{"type":"number"},"description":"Finite raw XYZW quaternion. abs(norm squared -1)<=1e-3; preserve raw values and normalize a deep calculation copy only."},
+    "scale":{"type":"number","exclusiveMinimum":0,"maximum":100}
+  }
+}

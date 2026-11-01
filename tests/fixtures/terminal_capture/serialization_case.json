@@ -1,0 +1,17 @@
+{
+  "run": "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf",
+  "inspection": "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e",
+  "files": {
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspector-arguments.json": "c404c0975266470f5a99f1a28682c37700faeff156e83314641b3cf6123e0952",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\source\\Source.sbs": "1ce003dc00af376fc235d994f5be8858d3c1620508b69e7c703bb89905e38851",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\pre-producer.json": "3a9fd4969b359e457f208960996611d52788c4a7034dcd29adcdd9991851a916",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\preflight.json": "11ad37f969590695872d51d49eaac82c9785901d351e6f0068fb7101f25c2c8d",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\pre-copy-locators.json": "ae024a4d13977603744d3973979f2420a649a9605f6a60591de59d345ba51c2e",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\pre-source.sbs": "12652bc298fdb095f24437a04bd12d8d4836f7160710bc94d43d621408e26740",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\pre-noise.sbs": "e28b0c1083d3e1e4330e626b4a244fef43d13754657e4e2401f976c686a166d1",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\h2-first-inspector-probe\\937b15d6a3f04a6a966dafd02aa6e438\\runs\\67861d4231364badab14b8cdae4d3adf\\inspection\\7bf74984bc2d4cc0b32d61b21263c62e\\pre-invert.sbs": "94aa48b73599972c8e2ef87363a42c8973898e8ec6c8ad06f6797ed98451692c"
+  },
+  "original_status": "failed",
+  "fixture_only_scalar_diff_count": 7,
+  "product_global_scalar_count_rule": false
+}

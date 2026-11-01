@@ -1,0 +1,18 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Host graph terminal source v1; never a native request field",
+  "type":"object","additionalProperties":false,
+  "required":["schema_version","source_kind","selection"],
+  "properties":{
+    "schema_version":{"type":"integer","const":1},"source_kind":{"type":"string","const":"graph_terminal"},
+    "selection":{"type":"object","additionalProperties":false,
+      "required":["package_path","package_uid","graph_identifier","terminal_identifier"],
+      "properties":{
+        "package_path":{"type":"string","minLength":1,"maxLength":4096},
+        "package_uid":{"type":"string","pattern":"^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$"},
+        "graph_identifier":{"type":"string","minLength":1,"maxLength":512},
+        "terminal_identifier":{"type":"string","minLength":1,"maxLength":512}
+      }
+    }
+  }
+}

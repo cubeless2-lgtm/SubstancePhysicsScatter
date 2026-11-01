@@ -1,0 +1,671 @@
+{
+  "source_path": "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-composition-probe\\7db0294c17b7403bb2094fefac80bddd\\runs\\28467e5b846045c0be7dde9cce3ba444\\connected.json",
+  "source_sha256": "b993e6db404b9bbc611db7003541bbb992a13f74e25cbac552d380e12d94b61a",
+  "templates": {
+    "graph/$outputsize": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt2",
+        "id": "int2",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          9,
+          9
+        ]
+      },
+      "default": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          8,
+          8
+        ]
+      }
+    },
+    "graph/$format": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeEnum",
+        "id": "sbs::compositing::format",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 1,
+        "value_id": "16_bits_per_channel"
+      },
+      "default": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0,
+        "value_id": "8_bits_per_channel"
+      }
+    },
+    "graph/$randomseed": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt",
+        "id": "int",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      },
+      "default": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      }
+    },
+    "noise/$outputsize": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt2",
+        "id": "int2",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          9,
+          9
+        ]
+      },
+      "default": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          8,
+          8
+        ]
+      }
+    },
+    "noise/$format": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeEnum",
+        "id": "sbs::compositing::format",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 1,
+        "value_id": "16_bits_per_channel"
+      },
+      "default": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0,
+        "value_id": "8_bits_per_channel"
+      }
+    },
+    "noise/$randomseed": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt",
+        "id": "int",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      },
+      "default": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      }
+    },
+    "noise/Disorder": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeFloat",
+        "id": "float",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeFloat",
+          "id": "float",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueFloat",
+        "type": {
+          "class_name": "SDTypeFloat",
+          "id": "float",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0.0
+      },
+      "default": {
+        "class_name": "SDValueFloat",
+        "type": {
+          "class_name": "SDTypeFloat",
+          "id": "float",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0.0
+      }
+    },
+    "invert/$outputsize": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt2",
+        "id": "int2",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          9,
+          9
+        ]
+      },
+      "default": {
+        "class_name": "SDValueInt2",
+        "type": {
+          "class_name": "SDTypeInt2",
+          "id": "int2",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": [
+          8,
+          8
+        ]
+      }
+    },
+    "invert/$format": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeEnum",
+        "id": "sbs::compositing::format",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 1,
+        "value_id": "16_bits_per_channel"
+      },
+      "default": {
+        "class_name": "SDValueEnum",
+        "type": {
+          "class_name": "SDTypeEnum",
+          "id": "sbs::compositing::format",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0,
+        "value_id": "8_bits_per_channel"
+      }
+    },
+    "invert/$randomseed": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeInt",
+        "id": "int",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      },
+      "default": {
+        "class_name": "SDValueInt",
+        "type": {
+          "class_name": "SDTypeInt",
+          "id": "int",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": 0
+      }
+    },
+    "invert/invert": {
+      "category": "Input",
+      "declaration": {
+        "class_name": "SDTypeBool",
+        "id": "bool",
+        "modifier": {
+          "name": "Auto",
+          "value": 0
+        }
+      },
+      "declarations": [
+        {
+          "class_name": "SDTypeBool",
+          "id": "bool",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        }
+      ],
+      "flags": {
+        "connectable": false,
+        "read_only": false,
+        "variadic": false,
+        "primary": false,
+        "function_only": false
+      },
+      "inheritance": {
+        "name": "Absolute",
+        "value": 2
+      },
+      "current": {
+        "class_name": "SDValueBool",
+        "type": {
+          "class_name": "SDTypeBool",
+          "id": "bool",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": true
+      },
+      "default": {
+        "class_name": "SDValueBool",
+        "type": {
+          "class_name": "SDTypeBool",
+          "id": "bool",
+          "modifier": {
+            "name": "Auto",
+            "value": 0
+          }
+        },
+        "value": true
+      }
+    }
+  },
+  "actual_SDK_adapter_verified": false
+}

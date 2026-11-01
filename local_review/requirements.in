@@ -1,0 +1,6 @@
+fastapi==0.162.0
+uvicorn
+numpy
+pillow
+python-multipart
+httpx

@@ -1,0 +1,33 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Physics Scatter 0.3.0 result envelope, schema 2",
+  "type":"object",
+  "required":["schema_version","job_id","worker_version","pose_format_version","physics_contract_version","bake_contract_version","physics_input_format_version","physics_input_hash","simulation_key","key_scheme","operation","coordinate_system","units","scale_semantics","poses","pose_envelope","pose_origin","origin","execution","steps","source_steps","settling_status","status"],
+  "properties":{
+    "schema_version":{"const":2},"worker_version":{"const":"0.3.0"},
+    "job_id":{"type":"string","pattern":"^[0-9a-f]{32}$"},
+    "pose_format_version":{"const":1},"physics_contract_version":{"const":2},"bake_contract_version":{"const":2},"physics_input_format_version":{"enum":[1,2]},
+    "physics_input_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "simulation_key":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "key_scheme":{"enum":["physics_input_v1","legacy_0_2_0"]},
+    "coordinate_system":{"const":"RH_Z_UP"},"units":{"const":"meters"},"scale_semantics":{"const":"final_uniform_scale_on_original_vertices"},
+    "poses":{"type":"array","maxItems":5000,"items":{"$ref":"pose.schema.json"}},
+    "requested_count":{"type":"integer","minimum":1,"maximum":5000},
+    "spawned_count":{"type":"integer","minimum":0,"maximum":5000},
+    "attempt_count":{"type":"integer","minimum":0,"maximum":50000},
+    "max_attempts":{"type":"integer","minimum":10,"maximum":50000},
+    "spawn_status":{"enum":["complete","partial","empty"]},
+    "spawn_stop_reason":{"enum":["requested_count_reached","attempts_exhausted","initial_height_limit","all_black"]},
+    "initial_positions":{"type":"array","maxItems":5000,"items":{"type":"array","minItems":3,"maxItems":3,"items":{"type":"number"}}},
+    "steps":{"type":"integer","minimum":0},"source_steps":{"type":"integer","minimum":0},"settling_status":{"type":"string","minLength":1},"status":{"const":"completed"},
+    "execution":{"type":"object","additionalProperties":false,"required":["physics_executed","body_count","steps"],"properties":{"physics_executed":{"type":"boolean"},"body_count":{"type":"integer","minimum":0},"steps":{"type":"integer","minimum":0}}},
+    "origin":{"type":"object","required":["kind","record_path","record_sha256"],"properties":{"kind":{"enum":["origin_result","legacy_result"]},"record_path":{"type":"string"},"record_sha256":{"type":"string","pattern":"^[0-9a-f]{64}$"}}}
+  },
+  "allOf":[
+    {"if":{"properties":{"operation":{"const":"bake"}}},"then":{"required":["rebake_source"],"properties":{"execution":{"const":{"physics_executed":false,"body_count":0,"steps":0}}}}},
+    {"if":{"properties":{"physics_input_format_version":{"const":1}}},"then":{"properties":{"poses":{"minItems":1}}},"else":{"required":["requested_count","spawned_count","attempt_count","max_attempts","spawn_status","spawn_stop_reason","initial_positions"]}},
+    {"if":{"required":["spawn_status"],"properties":{"spawn_status":{"const":"empty"}}},"then":{"properties":{"poses":{"maxItems":0},"initial_positions":{"maxItems":0},"spawned_count":{"const":0},"steps":{"const":0},"source_steps":{"const":0},"settling_status":{"const":"not_run"},"execution":{"const":{"physics_executed":false,"body_count":0,"steps":0}}}}},
+    {"if":{"required":["spawn_status"],"properties":{"spawn_status":{"enum":["complete","partial"]}}},"then":{"properties":{"poses":{"minItems":1},"spawned_count":{"minimum":1},"initial_positions":{"minItems":1}}}}
+  ],
+  "description":"Cross-field spawn truth table, raw-byte provenance, actual Mask all-black and exact initial origin preservation are additionally enforced by host and worker. Historical format1 requires nonempty poses and does not require spawn metadata."
+}

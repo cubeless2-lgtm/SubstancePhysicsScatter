@@ -1,0 +1,1 @@
+.live-note{position:absolute;z-index:8;top:12px;left:50%;transform:translateX(-50%);max-width:90%;padding:9px 14px;border:1px solid #53c3a6;border-radius:7px;background:#102a2bea;color:#c6ffe9;font:12px/1.5 system-ui,sans-serif;pointer-events:none;box-shadow:0 2px 16px #0008}.live-note[hidden]{display:none}

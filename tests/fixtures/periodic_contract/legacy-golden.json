@@ -1,0 +1,2928 @@
+{
+  "kind": "BEFORE_P2a_OLD_COMPAT_GENERATED",
+  "old_compat_sha256": "68548e468c523c398682a255ee8abdf27aee24cca520e90eb2a54caa09e7088a",
+  "default_versions": {
+    "pose_format_version": 1,
+    "physics_contract_version": 2,
+    "bake_contract_version": 2,
+    "physics_input_format_version": 2
+  },
+  "public_defaults": {
+    "inputs": 1,
+    "simulation_key": 1,
+    "validate_raw_poses": 1
+  },
+  "rows": [
+    {
+      "asset_id": "22222222222222222222222222222222",
+      "content_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+      "format": "obj",
+      "weight": -0.0,
+      "scale": 1.25,
+      "path": "D:/historical/B.obj"
+    },
+    {
+      "asset_id": "11111111111111111111111111111111",
+      "content_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "format": "obj",
+      "weight": 2,
+      "scale": 0.25,
+      "path": "D:/historical/A.obj"
+    }
+  ],
+  "inputs": [
+    {
+      "name": "v1_defaults",
+      "version": 1,
+      "simulation": {},
+      "mask": null,
+      "file": "v1_defaults.physics.json",
+      "sha256": "e372d738fc080203ad4ad407f73351627b76ae5b1a344049752a9a86c8890ab7",
+      "key1": "6f3cf9d73cf6469faad1a2d144848126e2eeaf6d2c2e50f7df366172d09b78ac",
+      "key2": "a8b965c7db1be96bbb14143af494d6ef9b0533cf90d6fa961ab46a0f380170fc"
+    },
+    {
+      "name": "v2_none",
+      "version": 2,
+      "simulation": {},
+      "mask": null,
+      "file": "v2_none.physics.json",
+      "sha256": "073f6abdc0b48d394b594ddc79ba4138f249246dc396a80c3593e7ea7041173e",
+      "key1": "72719dba701027b99bae15b7477158d1a7acdc1078b2641262282be7ae9b12f7",
+      "key2": "0d62e518e91bdf95e2ecd7bcfc3744434e7ef0fe2778bf8b2aab694536ea0601"
+    },
+    {
+      "name": "v2_mask",
+      "version": 2,
+      "simulation": {
+        "edges": "open",
+        "count": 3
+      },
+      "mask": {
+        "content_hash": "cccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc",
+        "format": "png",
+        "interpretation": "raw_linear_probability",
+        "sampling": "nearest",
+        "placement": "grid_rejection_v1"
+      },
+      "file": "v2_mask.physics.json",
+      "sha256": "1024e62c885383923bb5a52ddf1d7abd10df02a494997956527435275e87d570",
+      "key1": "ec048841fdf49031f52f156baf9504c913235b24ce1e07deaf3a0a6c1a93bdc9",
+      "key2": "1336ba4cbb7d675b2db65bac1087267d2ce2fd83c194ad66597dcead70201259"
+    },
+    {
+      "name": "v1_negative_zero",
+      "version": 1,
+      "simulation": {
+        "friction": -0.0,
+        "restitution": -0.0
+      },
+      "mask": null,
+      "file": "v1_negative_zero.physics.json",
+      "sha256": "35f30132cbf09e66674f237a58e54edcdbff05076604821df6100d76c015eb82",
+      "key1": "23a44ff57edf6e5f004b093414700afc70926ba0d179cd7b08f6ca37b1963fc0",
+      "key2": "4f2065e118cb3f2b2e0085599f7c5d47ed03dc3101fc1022a98cd11ec0b5d644"
+    },
+    {
+      "name": "v2_numeric",
+      "version": 2,
+      "simulation": {
+        "count": 2,
+        "seed": 4294967295,
+        "width": 2,
+        "depth": 2.0,
+        "seconds": 0.5,
+        "edges": "walls"
+      },
+      "mask": null,
+      "file": "v2_numeric.physics.json",
+      "sha256": "5b9ac8114ebf7a04268802e0897f7f60353421bc9bd53fe5a846cd0bbaf4da9d",
+      "key1": "93a7b739974a245bb7eb36392b99bcb80d8275cf21742adf54aaf9b8c1de2a72",
+      "key2": "2062f818e9922fb68bd76cbe7272b77af2f93085d6b05555b12b8a3480a6d2b5"
+    }
+  ],
+  "consumers": [
+    {
+      "cache": "accepted-stage2A\\fixtures\\PhysicsScatterDemo_PhysicsScatter\\scatter_09516e42cd034b1e9520c15f19380b08",
+      "wanted": {
+        "physics_input_format_version": 1,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 5,
+          "width": 2.0,
+          "depth": 2.0,
+          "seconds": 8.0,
+          "seed": 1,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        }
+      },
+      "bundle": {
+        "kind": "legacy",
+        "input_format_version": 1,
+        "legacy_chain": [
+          {
+            "job_id": "152f834538a341f68a45b98e3dd39ee1",
+            "request_sha256": "c3bb8e431bbc5069076f5fdda08c20e75241cd65efe3866c73c9fb1dff13805a",
+            "result_sha256": "3d9093754c365543e0ecf99de9b949fabb3dc03e68a1316e067b63c609935c11",
+            "key_material_sha256": "079e0ea797a03641f7b3b02baa6da99a14a446ee99857aa856876ee3742536cf"
+          },
+          {
+            "job_id": "c51ddc1d8af04387a8255097adb36432",
+            "request_sha256": "7fbc30b14074a1f5f88392fa3605989e463a65df43279a5fc9b41da08c84f8d8",
+            "result_sha256": "efd8f057c2dd48d7660b6a94f3dd43fe0561245b6a1cb1bdd9a302fe0387a233",
+            "key_material_sha256": "079e0ea797a03641f7b3b02baa6da99a14a446ee99857aa856876ee3742536cf"
+          }
+        ],
+        "origin_kind": "legacy_result",
+        "origin": {
+          "job_id": "c51ddc1d8af04387a8255097adb36432",
+          "worker_version": "0.2.0",
+          "physics_contract_version": 1,
+          "record_sha256": "efd8f057c2dd48d7660b6a94f3dd43fe0561245b6a1cb1bdd9a302fe0387a233"
+        },
+        "key_scheme": "legacy_0_2_0",
+        "simulation_key": "079e0ea797a03641f7b3b02baa6da99a14a446ee99857aa856876ee3742536cf",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 0,
+            "position": [
+              -0.29748889803886414,
+              -0.7595195770263672,
+              0.12499698996543884
+            ],
+            "rotation": [
+              0.02657641763931424,
+              -0.7066151885669597,
+              -0.026574787824857126,
+              -0.706599214522635
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              0.00010804081102833152,
+              -0.6667186617851257,
+              -0.011845182627439499
+            ],
+            "rotation": [
+              -0.0009058582241665582,
+              -0.001694915684453732,
+              -0.00254473605903813,
+              -0.999994915487119
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              0.700166642665863,
+              -0.6598470211029053,
+              0.11107264459133148
+            ],
+            "rotation": [
+              -0.708673119495468,
+              -0.46897503730358225,
+              -0.43720126148983857,
+              0.294448435285976
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 3,
+            "position": [
+              -0.8191294074058533,
+              0.17578549683094025,
+              -2.123415470123291e-07
+            ],
+            "rotation": [
+              1.257625257777529e-07,
+              -5.331428953812983e-07,
+              -0.7241775396425012,
+              -0.6896135809836068
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 4,
+            "position": [
+              -0.10915914922952652,
+              -0.08411600440740585,
+              0.12499836087226868
+            ],
+            "rotation": [
+              -0.12593810931683477,
+              0.6958009148296483,
+              -0.12593000308567232,
+              -0.6958033586199253
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 230,
+        "settling_status": "settled",
+        "source": {
+          "job_id": "152f834538a341f68a45b98e3dd39ee1",
+          "worker_version": "0.2.0",
+          "record_sha256": "3d9093754c365543e0ecf99de9b949fabb3dc03e68a1316e067b63c609935c11"
+        },
+        "source_request_sha256": "c3bb8e431bbc5069076f5fdda08c20e75241cd65efe3866c73c9fb1dff13805a"
+      },
+      "blobs": [
+        "079e0ea797a03641f7b3b02baa6da99a14a446ee99857aa856876ee3742536cf",
+        "3d9093754c365543e0ecf99de9b949fabb3dc03e68a1316e067b63c609935c11",
+        "7fbc30b14074a1f5f88392fa3605989e463a65df43279a5fc9b41da08c84f8d8",
+        "c3bb8e431bbc5069076f5fdda08c20e75241cd65efe3866c73c9fb1dff13805a",
+        "efd8f057c2dd48d7660b6a94f3dd43fe0561245b6a1cb1bdd9a302fe0387a233"
+      ]
+    },
+    {
+      "cache": "accepted-stage2A\\fixtures\\PhysicsScatterDemo_PhysicsScatter\\scatter_142cacc9ad7f48e5a236e2f9f3f97917",
+      "wanted": {
+        "physics_input_format_version": 1,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 5,
+          "width": 2.0,
+          "depth": 2.0,
+          "seconds": 8.0,
+          "seed": 2,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        }
+      },
+      "bundle": {
+        "kind": "legacy",
+        "input_format_version": 1,
+        "legacy_chain": [
+          {
+            "job_id": "9ccb3e8534924edc8aa805ef34ae21c8",
+            "request_sha256": "dc34b91f8721e92db15071cf632d3a059b8b2d55830f4ffacab2607214b3743d",
+            "result_sha256": "c05ae22ae22590ac0837395f08edb205452111caffa38912d999374923c05499",
+            "key_material_sha256": "947f5be17cd35cba1968c31a2e99bf302ae6fda60eb09036f03bacea2dd74b6d"
+          }
+        ],
+        "origin_kind": "legacy_result",
+        "origin": {
+          "job_id": "9ccb3e8534924edc8aa805ef34ae21c8",
+          "worker_version": "0.2.0",
+          "physics_contract_version": 1,
+          "record_sha256": "c05ae22ae22590ac0837395f08edb205452111caffa38912d999374923c05499"
+        },
+        "key_scheme": "legacy_0_2_0",
+        "simulation_key": "947f5be17cd35cba1968c31a2e99bf302ae6fda60eb09036f03bacea2dd74b6d",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 0,
+            "position": [
+              -0.8089869022369385,
+              -0.5408260822296143,
+              0.1250036060810089
+            ],
+            "rotation": [
+              1.0381026891610934e-06,
+              8.687384081163113e-07,
+              0.03473199835676405,
+              -0.9993966621358675
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 1,
+            "position": [
+              0.050766829401254654,
+              -0.578704297542572,
+              0.12499991804361343
+            ],
+            "rotation": [
+              -0.09369322629035272,
+              0.9956011145771706,
+              -8.311756590980936e-09,
+              2.7173534450828786e-08
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 2,
+            "position": [
+              0.5106889009475708,
+              -0.6800224781036377,
+              0.1249995008111
+            ],
+            "rotation": [
+              -0.18786712159161342,
+              -0.6816948117300544,
+              -0.1878662424230951,
+              0.6816923083349514
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 3,
+            "position": [
+              -0.6601285338401794,
+              0.013360279612243176,
+              -0.0004794560372829437
+            ],
+            "rotation": [
+              -0.028115464863717108,
+              -0.014696637381965215,
+              -0.2580813341438068,
+              0.9656021719381708
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              0.10318231582641602,
+              -0.17351636290550232,
+              0.1118023544549942
+            ],
+            "rotation": [
+              -0.8386018973170317,
+              0.14269588045169726,
+              -0.5182735017900819,
+              -0.0881891198540696
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 178,
+        "settling_status": "settled",
+        "source": {
+          "job_id": "9ccb3e8534924edc8aa805ef34ae21c8",
+          "worker_version": "0.2.0",
+          "record_sha256": "c05ae22ae22590ac0837395f08edb205452111caffa38912d999374923c05499"
+        },
+        "source_request_sha256": "dc34b91f8721e92db15071cf632d3a059b8b2d55830f4ffacab2607214b3743d"
+      },
+      "blobs": [
+        "947f5be17cd35cba1968c31a2e99bf302ae6fda60eb09036f03bacea2dd74b6d",
+        "c05ae22ae22590ac0837395f08edb205452111caffa38912d999374923c05499",
+        "dc34b91f8721e92db15071cf632d3a059b8b2d55830f4ffacab2607214b3743d"
+      ]
+    },
+    {
+      "cache": "accepted-stage2A1\\fixtures\\PhysicsScatterDemo_PhysicsScatter\\scatter_23422035957a4f7387e655ccc30e757c",
+      "wanted": {
+        "physics_input_format_version": 1,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 5,
+          "width": 2.0,
+          "depth": 2.0,
+          "seconds": 8.0,
+          "seed": 1,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 1,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "4eeb20ca87fd42ca9aba6c0b0874c1de",
+          "physics_contract_version": 1,
+          "record_sha256": "87eb0ddc9a450320d18183e3aacbca742b793700e9a3013f10f1e1c39e94f181",
+          "worker_version": "0.2.1"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "56ecadb8f17702ad0375aee4c74d38dce74022fde25367e4eaba62e6787d91d2",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 0,
+            "position": [
+              -0.29748889803886414,
+              -0.7595195770263672,
+              0.12499698996543884
+            ],
+            "rotation": [
+              0.026576418429613113,
+              -0.7066152095794678,
+              -0.026574788615107536,
+              -0.706599235534668
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              0.00010804081102833152,
+              -0.6667186617851257,
+              -0.011845182627439499
+            ],
+            "rotation": [
+              -0.0009058582945726812,
+              -0.0016949158161878586,
+              -0.0025447362568229437,
+              -0.9999949932098389
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              0.700166642665863,
+              -0.6598470211029053,
+              0.11107264459133148
+            ],
+            "rotation": [
+              -0.7086731195449829,
+              -0.4689750373363495,
+              -0.43720126152038574,
+              0.2944484353065491
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 3,
+            "position": [
+              -0.8191294074058533,
+              0.17578549683094025,
+              -2.123415470123291e-07
+            ],
+            "rotation": [
+              1.2576252572671365e-07,
+              -5.331428951649286e-07,
+              -0.7241775393486023,
+              -0.6896135807037354
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 4,
+            "position": [
+              -0.10915914922952652,
+              -0.08411600440740585,
+              0.12499836087226868
+            ],
+            "rotation": [
+              -0.12593811750411987,
+              0.6958009600639343,
+              -0.12593001127243042,
+              -0.6958034038543701
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 230,
+        "settling_status": "settled",
+        "source_input_sha256": "929d983fccd7f8e8faef316bd5ae7e8337b611f61395e671dfa3f6bc74821801",
+        "source_pose_source_sha256": "33839418eb476ccc8f596113ed988d98082576aa0e370635323414a664b90407",
+        "source": {
+          "job_id": "673fbcd5f02c45a6825b5f7971aea56e",
+          "worker_version": "0.2.1",
+          "record_sha256": "5c018eb1eb3892a5bccd673d4bb5284aca92f561ea1077e947fb8abd5834ed50"
+        },
+        "source_request_sha256": "9cab7ed1b249e146009f46a43511f784ee0b475e498d1bb3f8fa3154d1931aa5"
+      },
+      "blobs": [
+        "33839418eb476ccc8f596113ed988d98082576aa0e370635323414a664b90407",
+        "5c018eb1eb3892a5bccd673d4bb5284aca92f561ea1077e947fb8abd5834ed50",
+        "87eb0ddc9a450320d18183e3aacbca742b793700e9a3013f10f1e1c39e94f181",
+        "929d983fccd7f8e8faef316bd5ae7e8337b611f61395e671dfa3f6bc74821801",
+        "9cab7ed1b249e146009f46a43511f784ee0b475e498d1bb3f8fa3154d1931aa5"
+      ]
+    },
+    {
+      "cache": "accepted-stage2A1\\fixtures\\PhysicsScatterDemo_PhysicsScatter\\scatter_b8d3c7fadec64874b83a1f71c3995501",
+      "wanted": {
+        "physics_input_format_version": 1,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 5,
+          "width": 2.0,
+          "depth": 2.0,
+          "seconds": 8.0,
+          "seed": 2,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 1,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "9cf6b8ca6b9a4021ace8f2342a648dde",
+          "physics_contract_version": 1,
+          "record_sha256": "cdbc2496eb75d21ef51d0009b6bb97ed3c473348e9338a60e0664a6c937a94a1",
+          "worker_version": "0.2.1"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "d334cd06c70fe92596cb7cf0456b86ca0814ae531fcbe1095aa7eb62c09aa05d",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 0,
+            "position": [
+              -0.8089869022369385,
+              -0.5408260822296143,
+              0.1250036060810089
+            ],
+            "rotation": [
+              1.038102709571831e-06,
+              8.687384251970798e-07,
+              0.03473199903964996,
+              -0.9993966817855835
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 1,
+            "position": [
+              0.050766829401254654,
+              -0.578704297542572,
+              0.12499991804361343
+            ],
+            "rotation": [
+              -0.09369322657585144,
+              0.9956011176109314,
+              -8.31175661630823e-09,
+              2.7173534533631027e-08
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 2,
+            "position": [
+              0.5106889009475708,
+              -0.6800224781036377,
+              0.1249995008111
+            ],
+            "rotation": [
+              -0.18786711990833282,
+              -0.6816948056221008,
+              -0.1878662407398224,
+              0.6816923022270203
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 3,
+            "position": [
+              -0.6601285338401794,
+              0.013360279612243176,
+              -0.0004794560372829437
+            ],
+            "rotation": [
+              -0.028115466237068176,
+              -0.014696638099849224,
+              -0.2580813467502594,
+              0.9656022191047668
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              0.10318231582641602,
+              -0.17351636290550232,
+              0.1118023544549942
+            ],
+            "rotation": [
+              -0.8386019468307495,
+              0.14269588887691498,
+              -0.5182735323905945,
+              -0.08818912506103516
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 178,
+        "settling_status": "settled",
+        "source_input_sha256": "213dcacf95134273d5142412ab30f6fabc164b73e45fa877eaf932449a1021db",
+        "source": {
+          "job_id": "9cf6b8ca6b9a4021ace8f2342a648dde",
+          "worker_version": "0.2.1",
+          "record_sha256": "38531affb3edf8e61ed09c2a926e01f6c91bfdf86ebeedafd70a6c3dc57f5fed"
+        },
+        "source_request_sha256": "71d854fc0e32a019a278079088a6f1d1d2211988b43d39ee65906417be5735b3"
+      },
+      "blobs": [
+        "213dcacf95134273d5142412ab30f6fabc164b73e45fa877eaf932449a1021db",
+        "38531affb3edf8e61ed09c2a926e01f6c91bfdf86ebeedafd70a6c3dc57f5fed",
+        "71d854fc0e32a019a278079088a6f1d1d2211988b43d39ee65906417be5735b3",
+        "cdbc2496eb75d21ef51d0009b6bb97ed3c473348e9338a60e0664a6c937a94a1"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_6dbf87eb08f74fd6ac9d7a170622f777",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": {
+          "content_hash": "2c9f55d69978b4b81b3d57555ea338234de96aac7e2f2db2108025901fbd1392",
+          "format": "png",
+          "interpretation": "raw_linear_probability",
+          "sampling": "nearest",
+          "placement": "grid_rejection_v1"
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "3019bbb6e43340baa9a1986e5f3b7752",
+          "physics_contract_version": 2,
+          "record_sha256": "5e38cdc1934222979877546c7ac8c643398eb73ac30245e89e85e3a9630ea27c",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "32ebdb90d69e3235d9b2233804d1d973ed32212d514b948041a7d3c7cd00d45a",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 0,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.002861116314306855,
+              0.041123151779174805,
+              0.002751860534772277,
+              0.9991462230682373
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              -0.8624999523162842,
+              0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.28414079546928406,
+              0.29784688353538513,
+              0.01271001249551773,
+              0.9112572073936462
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              2.2970688343048096
+            ],
+            "rotation": [
+              0.10669046640396118,
+              0.129136323928833,
+              -0.10259813815355301,
+              0.9805175065994263
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 3,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              2.847069025039673
+            ],
+            "rotation": [
+              -0.12467357516288757,
+              0.13052766025066376,
+              0.13868287205696106,
+              -0.973748505115509
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              -0.8625000715255737,
+              0.862500011920929,
+              3.397068977355957
+            ],
+            "rotation": [
+              0.4906591773033142,
+              -0.09001140296459198,
+              0.5833600759506226,
+              0.6409700512886047
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 5,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              3.947068452835083
+            ],
+            "rotation": [
+              0.514756441116333,
+              0.13662870228290558,
+              0.4628140926361084,
+              0.708633542060852
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 6,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              4.497067928314209
+            ],
+            "rotation": [
+              -0.7657954692840576,
+              0.2115004062652588,
+              0.6066831350326538,
+              0.027574338018894196
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 7,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              5.047067642211914
+            ],
+            "rotation": [
+              -0.2596081495285034,
+              -0.14369989931583405,
+              -0.47877439856529236,
+              0.8262741565704346
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 8,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              5.597067832946777
+            ],
+            "rotation": [
+              -0.14620721340179443,
+              -0.3493424654006958,
+              -0.4869086742401123,
+              0.7870852947235107
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 9,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              6.147067546844482
+            ],
+            "rotation": [
+              0.03310222178697586,
+              0.04582591354846954,
+              -0.035584039986133575,
+              -0.9977664947509766
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 10,
+            "position": [
+              -0.862500011920929,
+              0.8624999523162842,
+              6.697067737579346
+            ],
+            "rotation": [
+              0.7388957738876343,
+              -0.13260118663311005,
+              0.20750467479228973,
+              -0.6272096037864685
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 11,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              7.247067928314209
+            ],
+            "rotation": [
+              -0.22724726796150208,
+              0.8308935165405273,
+              -0.44948694109916687,
+              -0.23650822043418884
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 12,
+        "settling_status": "time_limit",
+        "source_input_sha256": "af65a5cd2a9b8229b3678f30a3bfd0bf1be9a4500d25721f43bb7e220e34b7bb",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 12,
+          "attempt_count": 200,
+          "max_attempts": 200,
+          "spawn_status": "partial",
+          "spawn_stop_reason": "attempts_exhausted",
+          "initial_positions": [
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.3499999046325684
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.9000000953674316
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              3.450000047683716
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              4.0
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              4.550000190734863
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              5.099999904632568
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              5.650000095367432
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              6.199999809265137
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              6.75
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              7.300000190734863
+            ]
+          ]
+        },
+        "source": {
+          "job_id": "3019bbb6e43340baa9a1986e5f3b7752",
+          "worker_version": "0.3.0",
+          "record_sha256": "59d764bef792db3ac9c7f388964bc38e11e87a3ed9e926bad1856bc50f1680b6"
+        },
+        "source_request_sha256": "ab6890ed1ef9499c83774978f2533e3d8aeadb56920003a9a152d743876ed2d2"
+      },
+      "blobs": [
+        "59d764bef792db3ac9c7f388964bc38e11e87a3ed9e926bad1856bc50f1680b6",
+        "5e38cdc1934222979877546c7ac8c643398eb73ac30245e89e85e3a9630ea27c",
+        "ab6890ed1ef9499c83774978f2533e3d8aeadb56920003a9a152d743876ed2d2",
+        "af65a5cd2a9b8229b3678f30a3bfd0bf1be9a4500d25721f43bb7e220e34b7bb"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_6f64085edc354e0980180720c1087af0",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": {
+          "content_hash": "d44c0303173ecdb8ba72a7ab688f020583b31865537e2f9ab57e56aeec687807",
+          "format": "png",
+          "interpretation": "raw_linear_probability",
+          "sampling": "nearest",
+          "placement": "grid_rejection_v1"
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "567dc1c6bf0042ea9323b1f07652bc39",
+          "physics_contract_version": 2,
+          "record_sha256": "ff5bcf57e2d98c3bdf99f77624330abde676043410a9df6f03d99627eaa9ae13",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "987c46804550f3d884f78b1f91d70d461166b2dd857d9cada170449df219fb2f",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 0,
+            "position": [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.002861116314306855,
+              0.041123151779174805,
+              0.002751860534772277,
+              0.9991462230682373
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.28414079546928406,
+              0.29784688353538513,
+              0.01271001249551773,
+              0.9112572073936462
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.10669046640396118,
+              0.129136323928833,
+              -0.10259813815355301,
+              0.9805175065994263
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 3,
+            "position": [
+              0.862500011920929,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.12467357516288757,
+              0.13052766025066376,
+              0.13868287205696106,
+              -0.973748505115509
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              -0.8625000715255737,
+              -0.2875000238418579,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.4906591773033142,
+              -0.09001140296459198,
+              0.5833600759506226,
+              0.6409700512886047
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 5,
+            "position": [
+              -0.2874999940395355,
+              -0.2875000238418579,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.514756441116333,
+              0.13662870228290558,
+              0.4628140926361084,
+              0.708633542060852
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 6,
+            "position": [
+              0.2874999940395355,
+              -0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.7657954692840576,
+              0.2115004062652588,
+              0.6066831350326538,
+              0.027574338018894196
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 7,
+            "position": [
+              0.862500011920929,
+              -0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.2596081495285034,
+              -0.14369989931583405,
+              -0.47877439856529236,
+              0.8262741565704346
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 8,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.14620721340179443,
+              -0.3493424654006958,
+              -0.4869086742401123,
+              0.7870852947235107
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 9,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.03310222178697586,
+              0.04582591354846954,
+              -0.035584039986133575,
+              -0.9977664947509766
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 10,
+            "position": [
+              0.2874999940395355,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.7388957738876343,
+              -0.13260118663311005,
+              0.20750467479228973,
+              -0.6272096037864685
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 11,
+            "position": [
+              0.862500011920929,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.22724726796150208,
+              0.8308935165405273,
+              -0.44948694109916687,
+              -0.23650822043418884
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 12,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.032361119985580444,
+              0.10621502250432968,
+              0.36946702003479004,
+              -0.9225861430168152
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 13,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.6189741492271423,
+              -0.44564196467399597,
+              -0.6438248753547668,
+              0.0613502562046051
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 14,
+            "position": [
+              0.2874999940395355,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.2354738563299179,
+              0.07550656795501709,
+              0.04184355586767197,
+              0.9680392146110535
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 15,
+            "position": [
+              0.8625000715255737,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.02595270611345768,
+              0.5566009283065796,
+              0.49648478627204895,
+              0.6656010150909424
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 16,
+            "position": [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.1601075977087021,
+              -0.08658396452665329,
+              -0.08845032751560211,
+              -0.9793086051940918
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 17,
+            "position": [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.02658683806657791,
+              0.011140269227325916,
+              0.018148403614759445,
+              0.9994196891784668
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 18,
+            "position": [
+              0.28749996423721313,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              -0.16843251883983612,
+              -0.20024612545967102,
+              0.20181114971637726,
+              0.943824291229248
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 19,
+            "position": [
+              0.862500011920929,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.9529125690460205,
+              0.14128412306308746,
+              -0.14209984242916107,
+              -0.22760522365570068
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 12,
+        "settling_status": "time_limit",
+        "source_input_sha256": "9a1ac3a94dcda63fc0167bb6d77f402a913a90a9a75405cf262af3ed9dc5767b",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 20,
+          "attempt_count": 20,
+          "max_attempts": 200,
+          "spawn_status": "complete",
+          "spawn_stop_reason": "requested_count_reached",
+          "initial_positions": [
+            [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              0.862500011920929,
+              -0.862500011920929,
+              1.7999999523162842
+            ]
+          ]
+        },
+        "source": {
+          "job_id": "567dc1c6bf0042ea9323b1f07652bc39",
+          "worker_version": "0.3.0",
+          "record_sha256": "9c82b79101c39f7aa1552efde36537db5aed3e0690c7fcce5d90eb01c68d9192"
+        },
+        "source_request_sha256": "90e3a73ed9e4213cc9a35d9ca0dc365bdefff38cfa13c51175d0f7a6ca820385"
+      },
+      "blobs": [
+        "90e3a73ed9e4213cc9a35d9ca0dc365bdefff38cfa13c51175d0f7a6ca820385",
+        "9a1ac3a94dcda63fc0167bb6d77f402a913a90a9a75405cf262af3ed9dc5767b",
+        "9c82b79101c39f7aa1552efde36537db5aed3e0690c7fcce5d90eb01c68d9192",
+        "ff5bcf57e2d98c3bdf99f77624330abde676043410a9df6f03d99627eaa9ae13"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_77fdb1323ad84a179bfdc7b5f00cadb2",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": {
+          "content_hash": "eaa4a94ea300e0d2c775968cbe42f0b5b51ceafdeb73d64e9efddf6d4e880865",
+          "format": "png",
+          "interpretation": "raw_linear_probability",
+          "sampling": "nearest",
+          "placement": "grid_rejection_v1"
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "f0bbd137f81541b2ad4c5e1c6dbca791",
+          "physics_contract_version": 2,
+          "record_sha256": "a9543d11188e7d2782a0c4fc5de5941795fdce05ca6d3ed4898fbc968532665b",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "577961282fcb3f48a5b342d9c9db3f20b3b795310c5a74f82440becbeb4c4f54",
+        "poses": [],
+        "source_steps": 0,
+        "settling_status": "not_run",
+        "source_input_sha256": "7c8eebefdbed6fbe26bac3617f37d1348f780815cab27bed47bb0dd190190d18",
+        "source_pose_source_sha256": "fcf69be1c2664cbfd8568601c3074c2916a11a706fc16984bb39331c6d6af90c",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 0,
+          "attempt_count": 0,
+          "max_attempts": 200,
+          "spawn_status": "empty",
+          "spawn_stop_reason": "all_black",
+          "initial_positions": []
+        },
+        "source": {
+          "job_id": "747a4f54555d4bb298a362497722ee84",
+          "worker_version": "0.3.0",
+          "record_sha256": "fd4e35c29154a663f2337fbb88c285e22d9883883d18ea809266594d316b1491"
+        },
+        "source_request_sha256": "0671d38a4c388fe43b53ffe4b3f976736b51e3c60522f70195aac32783135f80"
+      },
+      "blobs": [
+        "0671d38a4c388fe43b53ffe4b3f976736b51e3c60522f70195aac32783135f80",
+        "7c8eebefdbed6fbe26bac3617f37d1348f780815cab27bed47bb0dd190190d18",
+        "a9543d11188e7d2782a0c4fc5de5941795fdce05ca6d3ed4898fbc968532665b",
+        "fcf69be1c2664cbfd8568601c3074c2916a11a706fc16984bb39331c6d6af90c",
+        "fd4e35c29154a663f2337fbb88c285e22d9883883d18ea809266594d316b1491"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_78fcc30a52dd4cb8b959246f7bb12f05",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": null
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "006f78c96ad34ea4999b362c0c78e1fd",
+          "physics_contract_version": 2,
+          "record_sha256": "447fb288c65ea5ace9e2b4d4c2c61dcc0e276e5954e90a53a76e82c3f0ad8182",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "f0b8d90226a22bf7680c3c2978ea0f2d4b2b204cdc2598025f2c9292a1ce4951",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 0,
+            "position": [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.002861116314306855,
+              0.041123151779174805,
+              0.002751860534772277,
+              0.9991462230682373
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.28414079546928406,
+              0.29784688353538513,
+              0.01271001249551773,
+              0.9112572073936462
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.10669046640396118,
+              0.129136323928833,
+              -0.10259813815355301,
+              0.9805175065994263
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 3,
+            "position": [
+              0.862500011920929,
+              -0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.12467357516288757,
+              0.13052766025066376,
+              0.13868287205696106,
+              -0.973748505115509
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              -0.8625000715255737,
+              -0.2875000238418579,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.4906591773033142,
+              -0.09001140296459198,
+              0.5833600759506226,
+              0.6409700512886047
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 5,
+            "position": [
+              -0.2874999940395355,
+              -0.2875000238418579,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.514756441116333,
+              0.13662870228290558,
+              0.4628140926361084,
+              0.708633542060852
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 6,
+            "position": [
+              0.2874999940395355,
+              -0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.7657954692840576,
+              0.2115004062652588,
+              0.6066831350326538,
+              0.027574338018894196
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 7,
+            "position": [
+              0.862500011920929,
+              -0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.2596081495285034,
+              -0.14369989931583405,
+              -0.47877439856529236,
+              0.8262741565704346
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 8,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.14620721340179443,
+              -0.3493424654006958,
+              -0.4869086742401123,
+              0.7870852947235107
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 9,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.03310222178697586,
+              0.04582591354846954,
+              -0.035584039986133575,
+              -0.9977664947509766
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 10,
+            "position": [
+              0.2874999940395355,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.7388957738876343,
+              -0.13260118663311005,
+              0.20750467479228973,
+              -0.6272096037864685
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 11,
+            "position": [
+              0.862500011920929,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.22724726796150208,
+              0.8308935165405273,
+              -0.44948694109916687,
+              -0.23650822043418884
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 12,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.032361119985580444,
+              0.10621502250432968,
+              0.36946702003479004,
+              -0.9225861430168152
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 13,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.6189741492271423,
+              -0.44564196467399597,
+              -0.6438248753547668,
+              0.0613502562046051
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 14,
+            "position": [
+              0.2874999940395355,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.2354738563299179,
+              0.07550656795501709,
+              0.04184355586767197,
+              0.9680392146110535
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 15,
+            "position": [
+              0.8625000715255737,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.02595270611345768,
+              0.5566009283065796,
+              0.49648478627204895,
+              0.6656010150909424
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 16,
+            "position": [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.1601075977087021,
+              -0.08658396452665329,
+              -0.08845032751560211,
+              -0.9793086051940918
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 17,
+            "position": [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.02658683806657791,
+              0.011140269227325916,
+              0.018148403614759445,
+              0.9994196891784668
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 18,
+            "position": [
+              0.28749996423721313,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              -0.16843251883983612,
+              -0.20024612545967102,
+              0.20181114971637726,
+              0.943824291229248
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 19,
+            "position": [
+              0.862500011920929,
+              -0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.9529125690460205,
+              0.14128412306308746,
+              -0.14209984242916107,
+              -0.22760522365570068
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 12,
+        "settling_status": "time_limit",
+        "source_input_sha256": "9f77c1fa49be3c0c147d26574a41c78ff404ad6c9945fe50419060b13ff0a217",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 20,
+          "attempt_count": 20,
+          "max_attempts": 200,
+          "spawn_status": "complete",
+          "spawn_stop_reason": "requested_count_reached",
+          "initial_positions": [
+            [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              -0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              -0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              0.2874999940395355,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.2874999940395355,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              0.2874999940395355,
+              -0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              0.862500011920929,
+              -0.862500011920929,
+              1.7999999523162842
+            ]
+          ]
+        },
+        "source": {
+          "job_id": "006f78c96ad34ea4999b362c0c78e1fd",
+          "worker_version": "0.3.0",
+          "record_sha256": "60f30e6cada15de12737cf9805af08cf20235f6223e294bc1308e608f9781064"
+        },
+        "source_request_sha256": "90d4451cdee8c2d29da15826def0e735dd68e0369461614c14ce4642fe35f3ff"
+      },
+      "blobs": [
+        "447fb288c65ea5ace9e2b4d4c2c61dcc0e276e5954e90a53a76e82c3f0ad8182",
+        "60f30e6cada15de12737cf9805af08cf20235f6223e294bc1308e608f9781064",
+        "90d4451cdee8c2d29da15826def0e735dd68e0369461614c14ce4642fe35f3ff",
+        "9f77c1fa49be3c0c147d26574a41c78ff404ad6c9945fe50419060b13ff0a217"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_b00c7095ced44ecdb394126bdf19f1d5",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": {
+          "content_hash": "c86de029d3c59d1e6bd25ac4e537062fe8c42f96cd8f6fb2bb39a4ac21130e1c",
+          "format": "png",
+          "interpretation": "raw_linear_probability",
+          "sampling": "nearest",
+          "placement": "grid_rejection_v1"
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "58ace28fcc3243dc85004b8bd48616c6",
+          "physics_contract_version": 2,
+          "record_sha256": "e714cae48ee107718571df948137514ab89f49c7d9a194fb35bd4a3229232d92",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "83b9e963dbd6fc2c14894ef52f9e6b50155a42767326e7e56d7e56a7e8b9c5fc",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 0,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.002861116314306855,
+              0.041123151779174805,
+              0.002751860534772277,
+              0.9991462230682373
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              -0.8624999523162842,
+              0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.28414079546928406,
+              0.29784688353538513,
+              0.01271001249551773,
+              0.9112572073936462
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              2.2970688343048096
+            ],
+            "rotation": [
+              0.10669046640396118,
+              0.129136323928833,
+              -0.10259813815355301,
+              0.9805175065994263
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 3,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              2.847069025039673
+            ],
+            "rotation": [
+              -0.12467357516288757,
+              0.13052766025066376,
+              0.13868287205696106,
+              -0.973748505115509
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              -0.8625000715255737,
+              0.862500011920929,
+              3.397068977355957
+            ],
+            "rotation": [
+              0.4906591773033142,
+              -0.09001140296459198,
+              0.5833600759506226,
+              0.6409700512886047
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 5,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              3.947068452835083
+            ],
+            "rotation": [
+              0.514756441116333,
+              0.13662870228290558,
+              0.4628140926361084,
+              0.708633542060852
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 6,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              4.497067928314209
+            ],
+            "rotation": [
+              -0.7657954692840576,
+              0.2115004062652588,
+              0.6066831350326538,
+              0.027574338018894196
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 7,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              5.047067642211914
+            ],
+            "rotation": [
+              -0.2596081495285034,
+              -0.14369989931583405,
+              -0.47877439856529236,
+              0.8262741565704346
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 8,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              5.597067832946777
+            ],
+            "rotation": [
+              -0.14620721340179443,
+              -0.3493424654006958,
+              -0.4869086742401123,
+              0.7870852947235107
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 9,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              6.147067546844482
+            ],
+            "rotation": [
+              0.03310222178697586,
+              0.04582591354846954,
+              -0.035584039986133575,
+              -0.9977664947509766
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 10,
+            "position": [
+              -0.862500011920929,
+              0.8624999523162842,
+              6.697067737579346
+            ],
+            "rotation": [
+              0.7388957738876343,
+              -0.13260118663311005,
+              0.20750467479228973,
+              -0.6272096037864685
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 11,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              7.247067928314209
+            ],
+            "rotation": [
+              -0.22724726796150208,
+              0.8308935165405273,
+              -0.44948694109916687,
+              -0.23650822043418884
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 12,
+        "settling_status": "time_limit",
+        "source_input_sha256": "86faa4e4917400d5cf1f1b6346570bdcf4db02802ff7c3c97b7a9fbb632642e9",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 12,
+          "attempt_count": 200,
+          "max_attempts": 200,
+          "spawn_status": "partial",
+          "spawn_stop_reason": "attempts_exhausted",
+          "initial_positions": [
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.3499999046325684
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.9000000953674316
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              3.450000047683716
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              4.0
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              4.550000190734863
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              5.099999904632568
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              5.650000095367432
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              6.199999809265137
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              6.75
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              7.300000190734863
+            ]
+          ]
+        },
+        "source": {
+          "job_id": "58ace28fcc3243dc85004b8bd48616c6",
+          "worker_version": "0.3.0",
+          "record_sha256": "75d106f9c47af796ad60aa4d62989724cd87e87cf562744b69db36f3f7c214df"
+        },
+        "source_request_sha256": "91944618ea19c3c13226a82a15f5c81363335eff6dc480abce1d4d20bfc86a95"
+      },
+      "blobs": [
+        "75d106f9c47af796ad60aa4d62989724cd87e87cf562744b69db36f3f7c214df",
+        "86faa4e4917400d5cf1f1b6346570bdcf4db02802ff7c3c97b7a9fbb632642e9",
+        "91944618ea19c3c13226a82a15f5c81363335eff6dc480abce1d4d20bfc86a95",
+        "e714cae48ee107718571df948137514ab89f49c7d9a194fb35bd4a3229232d92"
+      ]
+    },
+    {
+      "cache": "accepted-stage2B-file-mask\\fixtures\\FileMask_PhysicsScatter\\scatter_c43a72b1a12b44fab5b4132ca3be1200",
+      "wanted": {
+        "physics_input_format_version": 2,
+        "assets": [
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "content_hash": "8edd95b43431761d480be28dc3498e1102a1e19e67e3c42e29d4344470d6af0c",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "content_hash": "ab241920f79741b7af44b2426bfe0bb60a1eb5566a82f13f9516e258833808af",
+            "format": "obj",
+            "weight": 1.0,
+            "scale": 0.25
+          }
+        ],
+        "simulation": {
+          "count": 20,
+          "width": 2.3,
+          "depth": 2.3,
+          "seconds": 0.1,
+          "seed": 123456789,
+          "edges": "walls",
+          "friction": 0.6,
+          "restitution": 0.05
+        },
+        "scatter_mask": {
+          "content_hash": "41cc19f5e5f6e687147fd748bfd63f63a4a2b4a7049a885f6840c673db769092",
+          "format": "png",
+          "interpretation": "raw_linear_probability",
+          "sampling": "nearest",
+          "placement": "grid_rejection_v1"
+        }
+      },
+      "bundle": {
+        "kind": "new",
+        "input_format_version": 2,
+        "origin_kind": "origin_result",
+        "origin": {
+          "job_id": "6c99ab87bbd04256bef116b991e64f4c",
+          "physics_contract_version": 2,
+          "record_sha256": "d7621b5ac4b56ecdfd6e7a985968dc5882fd2418ba30391438d69f4e61f38107",
+          "worker_version": "0.3.0"
+        },
+        "key_scheme": "physics_input_v1",
+        "simulation_key": "7b73b5d5d69fdb7e1fa3f8079c5e8ca0e0f3701d21afa6562102be60d7df469f",
+        "poses": [
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 0,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.002861116314306855,
+              0.041123151779174805,
+              0.002751860534772277,
+              0.9991462230682373
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 1,
+            "position": [
+              -0.2874999940395355,
+              0.2875000238418579,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.28414079546928406,
+              0.29784688353538513,
+              0.01271001249551773,
+              0.9112572073936462
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 2,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              0.10669046640396118,
+              0.129136323928833,
+              -0.10259813815355301,
+              0.9805175065994263
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 3,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.1970685720443726
+            ],
+            "rotation": [
+              -0.12467357516288757,
+              0.13052766025066376,
+              0.13868287205696106,
+              -0.973748505115509
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 4,
+            "position": [
+              -0.8625000715255737,
+              0.2874999940395355,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.4906591773033142,
+              -0.09001140296459198,
+              0.5833600759506226,
+              0.6409700512886047
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 5,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.7470685243606567
+            ],
+            "rotation": [
+              0.514756441116333,
+              0.13662870228290558,
+              0.4628140926361084,
+              0.708633542060852
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 6,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              -0.7657954692840576,
+              0.2115004062652588,
+              0.6066831350326538,
+              0.027574338018894196
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 7,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.7470685243606567
+            ],
+            "rotation": [
+              -0.2596081495285034,
+              -0.14369989931583405,
+              -0.47877439856529236,
+              0.8262741565704346
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 8,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              2.2970688343048096
+            ],
+            "rotation": [
+              -0.14620721340179443,
+              -0.3493424654006958,
+              -0.4869086742401123,
+              0.7870852947235107
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 9,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              2.2970685958862305
+            ],
+            "rotation": [
+              0.03310222178697586,
+              0.04582591354846954,
+              -0.035584039986133575,
+              -0.9977664947509766
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 10,
+            "position": [
+              -0.862500011920929,
+              0.8624999523162842,
+              2.2970688343048096
+            ],
+            "rotation": [
+              0.7388957738876343,
+              -0.13260118663311005,
+              0.20750467479228973,
+              -0.6272096037864685
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 11,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              2.2970688343048096
+            ],
+            "rotation": [
+              -0.22724726796150208,
+              0.8308935165405273,
+              -0.44948694109916687,
+              -0.23650822043418884
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 12,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              2.847069025039673
+            ],
+            "rotation": [
+              0.032361119985580444,
+              0.10621502250432968,
+              0.36946702003479004,
+              -0.9225861430168152
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 13,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              2.847069025039673
+            ],
+            "rotation": [
+              -0.6189741492271423,
+              -0.44564196467399597,
+              -0.6438248753547668,
+              0.0613502562046051
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 14,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              2.847069025039673
+            ],
+            "rotation": [
+              -0.2354738563299179,
+              0.07550656795501709,
+              0.04184355586767197,
+              0.9680392146110535
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 15,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              2.847069025039673
+            ],
+            "rotation": [
+              -0.02595270611345768,
+              0.5566009283065796,
+              0.49648478627204895,
+              0.6656010150909424
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 16,
+            "position": [
+              -0.862500011920929,
+              0.2874999940395355,
+              3.397068977355957
+            ],
+            "rotation": [
+              0.1601075977087021,
+              -0.08658396452665329,
+              -0.08845032751560211,
+              -0.9793086051940918
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 17,
+            "position": [
+              -0.2874999940395355,
+              0.2874999940395355,
+              3.397068977355957
+            ],
+            "rotation": [
+              0.02658683806657791,
+              0.011140269227325916,
+              0.018148403614759445,
+              0.9994196891784668
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000002",
+            "id": 18,
+            "position": [
+              -0.862500011920929,
+              0.862500011920929,
+              3.397068977355957
+            ],
+            "rotation": [
+              -0.16843251883983612,
+              -0.20024612545967102,
+              0.20181114971637726,
+              0.943824291229248
+            ],
+            "scale": 0.25
+          },
+          {
+            "asset_id": "00000000000040008000000000000001",
+            "id": 19,
+            "position": [
+              -0.2874999940395355,
+              0.862500011920929,
+              3.397068977355957
+            ],
+            "rotation": [
+              0.9529125690460205,
+              0.14128412306308746,
+              -0.14209984242916107,
+              -0.22760522365570068
+            ],
+            "scale": 0.25
+          }
+        ],
+        "source_steps": 12,
+        "settling_status": "time_limit",
+        "source_input_sha256": "402167aaf61116cc402f719579d48fa3a96a5924ea68b50a007c75f0712fb595",
+        "spawn": {
+          "requested_count": 20,
+          "spawned_count": 20,
+          "attempt_count": 78,
+          "max_attempts": 200,
+          "spawn_status": "complete",
+          "spawn_stop_reason": "requested_count_reached",
+          "initial_positions": [
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.25
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              1.7999999523162842
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              1.7999999523162842
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              1.7999999523162842
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              2.3499999046325684
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              2.3499999046325684
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.3499999046325684
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              2.3499999046325684
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              2.9000000953674316
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              2.9000000953674316
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              2.9000000953674316
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              2.9000000953674316
+            ],
+            [
+              -0.862500011920929,
+              0.2874999940395355,
+              3.450000047683716
+            ],
+            [
+              -0.2874999940395355,
+              0.2874999940395355,
+              3.450000047683716
+            ],
+            [
+              -0.862500011920929,
+              0.862500011920929,
+              3.450000047683716
+            ],
+            [
+              -0.2874999940395355,
+              0.862500011920929,
+              3.450000047683716
+            ]
+          ]
+        },
+        "source": {
+          "job_id": "6c99ab87bbd04256bef116b991e64f4c",
+          "worker_version": "0.3.0",
+          "record_sha256": "b79aeb6106cbba82f12945daa1fc3bae6c4c43b13fc376dba39b3a294b116295"
+        },
+        "source_request_sha256": "56775d3fa6760da60a368c3a28d31e93db0eb923793733ff0ce074dff4932927"
+      },
+      "blobs": [
+        "402167aaf61116cc402f719579d48fa3a96a5924ea68b50a007c75f0712fb595",
+        "56775d3fa6760da60a368c3a28d31e93db0eb923793733ff0ce074dff4932927",
+        "b79aeb6106cbba82f12945daa1fc3bae6c4c43b13fc376dba39b3a294b116295",
+        "d7621b5ac4b56ecdfd6e7a985968dc5882fd2418ba30391438d69f4e61f38107"
+      ]
+    }
+  ]
+}

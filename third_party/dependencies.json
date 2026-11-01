@@ -1,0 +1,7 @@
+{
+  "JoltPhysics": {"version":"5.2.0","commit":"a63aa3b8e24cf95f3fab2613f9a3015b164ef62c","license":"MIT","url":"https://github.com/jrouwe/JoltPhysics"},
+  "nlohmann_json": {"version":"3.11.3","commit":"9cca280a4d0ccf0c08f47a99aa71d1b0e52f8d03","license":"MIT","url":"https://github.com/nlohmann/json"},
+  "tinyobjloader": {"version":"2.0.0rc13","commit":"2945a967c5303b2c8c14174117c45f3302591150","license":"MIT","url":"https://github.com/tinyobjloader/tinyobjloader"},
+  "lodepng": {"commit":"e584a8490db1b76b81bf298c11c09d3b55d9c270","license":"zlib","url":"https://github.com/lvandeve/lodepng"},
+  "zlib": {"version":"1.3.2","sha256":"bb329a0a2cd0274d05519d61c667c062e06990d72e125ee2dfa8de64f0119d16","license":"zlib","url":"https://www.zlib.net/zlib-1.3.2.tar.gz","linkage":"static /MT","archive_hash_verified":true}
+}

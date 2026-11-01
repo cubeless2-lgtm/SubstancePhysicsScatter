@@ -1,0 +1,12 @@
+{
+  "$schema":"https://json-schema.org/draft/2020-12/schema",
+  "title":"Owned file scatter mask snapshot",
+  "type":"object","additionalProperties":false,
+  "required":["content_hash","path","source_name","format","interpretation","sampling","placement"],
+  "properties":{
+    "content_hash":{"type":"string","pattern":"^[0-9a-f]{64}$"},
+    "path":{"type":"string","minLength":1},"source_name":{"type":"string"},
+    "format":{"const":"png"},"interpretation":{"const":"raw_linear_probability"},
+    "sampling":{"const":"nearest"},"placement":{"const":"grid_rejection_v1"}
+  }
+}

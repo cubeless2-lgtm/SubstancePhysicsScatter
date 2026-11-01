@@ -1,0 +1,15 @@
+{
+  "inputs": {
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-composition-probe\\7db0294c17b7403bb2094fefac80bddd\\runs\\28467e5b846045c0be7dde9cce3ba444\\NativeComposition.sbs": "a0d44f8c413902446fc2328ca92113f787db53429d13f1d2a77e1c098cbc1941",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-composition-probe\\7db0294c17b7403bb2094fefac80bddd\\runs\\28467e5b846045c0be7dde9cce3ba444\\connected.json": "b993e6db404b9bbc611db7003541bbb992a13f74e25cbac552d380e12d94b61a",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-composition-probe\\7db0294c17b7403bb2094fefac80bddd\\runs\\28467e5b846045c0be7dde9cce3ba444\\conditional-bounds.json": "03b401979846ece392c0a237d01222f672557ddb58e325dc7420ca88c7eaf4f1",
+    "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-reference-noise-probe\\73f9f3baa97649e98d906d18998d51bd\\runs\\d3a1592c137e420ea5c77e1cb926f16c\\NativeFirstCompute.sbs": "042c68cebfbbaf661a3aeedffb4cdf8c1e0126483625febcdc1665db90cb0b01",
+    "C:\\Program Files\\Adobe\\Adobe Substance 3D Designer\\resources\\packages\\vertical_noise.sbs": "47116c37a2e0d59dfc149760d1b999f19323272e23d3164af01da918b0112cc4",
+    "C:\\Program Files\\Adobe\\Adobe Substance 3D Designer\\resources\\packages\\invert.sbs": "edc847dccbdb21d2ec745647dfd60c2957f251c60f3252162238fa6b881b7c11"
+  },
+  "projection": "Exact needed declaration/wrapper/inheritance metadata extracted from connected.json; current source XML tokens determine direct literals. Not a live SDK adapter or native copy fixture.",
+  "source_aliases": {
+    "composition": "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-composition-probe\\7db0294c17b7403bb2094fefac80bddd\\runs\\28467e5b846045c0be7dde9cce3ba444\\NativeComposition.sbs",
+    "two_graphs": "D:\\Git\\SubstancePhysicsScatter\\output\\evidence\\graph-mask-native-reference-noise-probe\\73f9f3baa97649e98d906d18998d51bd\\runs\\d3a1592c137e420ea5c77e1cb926f16c\\NativeFirstCompute.sbs"
+  }
+}
