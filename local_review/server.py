@@ -12,7 +12,7 @@ BASE=Path(__file__).resolve().parent;ROOT=BASE.parent;WORK=BASE/'workspace';WORK
 sys.path.insert(0,str(ROOT/'plugin'))
 from substance_physics_scatter.core import Jobs,atomic_json
 from substance_physics_scatter.fileio import io_path,logical_path
-from substance_physics_scatter import motion,live_preview
+from substance_physics_scatter import motion,live_preview,local_workers
 import import_contract,review_contract,canonical_contract,job_assets,result_bundle,pbr_contract,material_revision,result_export,saved_provenance,texture_revision,stored_assets,stored_hulls
 import designer_review
 MAX_UPLOAD=128*1024*1024;FILE_LIMIT=32*1024*1024;PORT=int(os.environ.get('SCATTER_REVIEW_PORT','8765'))
@@ -156,7 +156,7 @@ def current():
         verified=dict(implementation=producer['implementation_version'],hull_count=len(bundle['hulls']['hulls']),url=f'/api/hulls/{c["job_id"]}',status=bundle['hull_status'],origin_job_id=bundle['inherited']['origin_job_id'] if bundle.get('inherited') else c['job_id'])
     return dict(job_id=c['job_id'],poses=c['result']['poses'],spawned_count=c['result'].get('spawned_count'),requested_count=c['result'].get('requested_count'),spawn_status=c['result'].get('spawn_status'),stop_reason=c['result'].get('spawn_stop_reason'),execution=c['result']['execution'],settings=saved,review=verified,periodic=bundle.get('periodic'),hull_status=bundle['hull_status'],hull_reason=bundle.get('hull_reason'),maps={k:d['url'] for k,d in bundle['descriptors'].items()},map_descriptors=bundle['descriptors'],height_field=dict(metadata_url=f'/api/height/{c["job_id"]}',data_url=f'/api/height/{c["job_id"]}/data'),motion=motion.links(bundle['motion']['metadata'],f'/api/motion/{c["job_id"]}/metadata',f'/api/motion/{c["job_id"]}/data'),pipeline='N3 periodic PBR' if bundle.get('periodic') else 'N2 material PBR' if 'basecolor' in bundle['descriptors'] else 'N1 geometry/HNC' if doc else 'legacy HNC')
 @app.get('/api/state')
-async def get_state():return dict(session_token=TOKEN,assets=[public_asset(a) for a in assets.values()],job=run_state,current=current(),operation_busy=is_busy(),capabilities=dict(obj=True,basic_glb_materials=True,hull=REVIEW_WORKER.is_file(),fbx=True,pbr_bake=PBR_WORKER.is_file(),seamless_periodic=periodic_ready(),selected_asset_limit=6),runtime=dict(worker_exists=REVIEW_WORKER.is_file() and PBR_WORKER.is_file(),blender_exists=BLENDER.is_file(),cleanup_latched=runtime_latched))
+async def get_state():return dict(session_token=TOKEN,assets=[public_asset(a) for a in assets.values()],job=run_state,current=current(),operation_busy=is_busy(),capabilities=dict(obj=True,basic_glb_materials=True,hull=PBR_WORKER.is_file(),fbx=True,pbr_bake=PBR_WORKER.is_file(),seamless_periodic=periodic_ready(),selected_asset_limit=6),runtime=dict(worker_exists=PBR_WORKER.is_file(),blender_exists=BLENDER.is_file(),cleanup_latched=runtime_latched))
 
 async def bounded(argv,folder,timeout,cancel=None,events=False):
     global process,runtime_latched
@@ -434,7 +434,8 @@ async def execute(body,token,*,rebake=False):
                 if not periodic_ready() or not pbr_enabled:raise ValueError('검증된 N3 periodic/PBR 런타임이 필요합니다.')
                 binary=PERIODIC_WORKER;fp=PERIODIC_FINGERPRINT;implementation='0.4.0-review.3'
             before_binary=sha(binary);fingerprint=fp.read_text(encoding='utf8').strip()
-            if (fingerprint,before_binary)!=result_bundle.LIVE_PRODUCERS[implementation]:raise ValueError('Worker build identity differs')
+            mode='periodic' if implementation=='0.4.0-review.3' else 'pbr'
+            if (fingerprint,before_binary)!=result_bundle.LIVE_PRODUCERS[implementation] and (fingerprint,before_binary) not in local_workers.pairs(mode):raise ValueError('Worker build identity differs; register the local build')
             interactive=not rebake
             if interactive:live_preview.begin(jobs.directory,jobs.active,token,binary,'normal',index['renders']);live_registered=True
             events=await bounded([binary,request],owned(WORK/'logs'/token),180 if interactive else 120,dict(token=token,live=interactive),True)
@@ -468,7 +469,7 @@ async def execute(body,token,*,rebake=False):
 def queue_run(body,*,rebake=False):
     global task,run_state
     if is_busy():raise HTTPException(409,'One job at a time; unconfirmed process cleanup requires operator inspection')
-    if not REVIEW_WORKER.is_file():raise ValueError('Verified N1 review worker unavailable')
+    if not PBR_WORKER.is_file():raise ValueError('Registered PBR worker unavailable')
     if body.simulation.edges=='periodic':
         if not periodic_ready():raise ValueError('실제 주기 경계 런타임의 검증·연결이 아직 완료되지 않았습니다.')
         if any(not assets.get(a.asset_id,{}).get('metadata',{}).get('material_ready') for a in body.assets):raise ValueError('주기 경계는 UV/PBR 재질 입력이 준비된 자산을 선택하세요.')

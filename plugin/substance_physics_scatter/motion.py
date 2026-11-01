@@ -1,7 +1,7 @@
 """Bounded actual Jolt observations. No SDK, interpolation or physics mutation."""
 from pathlib import Path
 import copy,hashlib,json,math,os,stat,struct
-from . import compat,mask_source
+from . import compat,mask_source,local_workers
 from .fileio import io_path
 
 MAX_BYTES=8*1024*1024
@@ -67,7 +67,9 @@ def validate(raw,source_result,result_sha256,physics_input_hash):
     exact(data,('schema_version','coordinate_system','units','source_job_id','result_sha256','physics_input_hash','pose_origin','producer','bodies','sampling','frames','final_poses_sha256'))
     if type(data['schema_version']) is not int or data['schema_version']!=1 or data['coordinate_system']!='RH_Z_UP' or data['units']!='meters':raise ValueError('Motion coordinate/version contract')
     producer=data['producer'];exact(producer,('implementation_version','build_fingerprint','binary_sha256'))
-    if producer['implementation_version']!='0.4.0-motion.1' or PRODUCERS.get(mask_source.sha(producer['build_fingerprint']))!=mask_source.sha(producer['binary_sha256']):raise ValueError('Unapproved motion producer')
+    if producer['implementation_version']!='0.4.0-motion.1':raise ValueError('Unapproved motion producer')
+    pair=(mask_source.sha(producer['build_fingerprint']),mask_source.sha(producer['binary_sha256']))
+    if PRODUCERS.get(pair[0])!=pair[1] and not any(pair in local_workers.pairs(mode) for mode in local_workers.MODES):raise ValueError('Unapproved motion producer')
     if data['source_job_id']!=source_result['job_id'] or data['result_sha256']!=mask_source.sha(result_sha256) or data['physics_input_hash']!=mask_source.sha(physics_input_hash) or data['pose_origin']!=source_result['pose_origin']:raise ValueError('Motion raw source/physics/origin binding differs')
     if source_result.get('operation') not in ('simulate','simulate_bake') or source_result.get('status')!='completed' or source_result.get('coordinate_system')!='RH_Z_UP' or source_result.get('units')!='meters':raise ValueError('Motion requires a completed actual simulation')
     poses=source_result['poses'];bodies=data['bodies'];frames=data['frames'];sampling=data['sampling']

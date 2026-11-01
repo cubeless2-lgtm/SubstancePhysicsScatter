@@ -35,3 +35,5 @@ __pycache__/
 /experiments/periodic_backend/*
 !/experiments/periodic_solver/kernel.h
 !/experiments/periodic_backend/geometry.h
+# Small source-controlled test meshes
+!/tests/fixtures/*.obj

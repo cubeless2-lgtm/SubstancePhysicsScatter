@@ -1,7 +1,7 @@
 """Job-owned provisional frames, never a completed/promotion proof. No SDK imports."""
 from pathlib import Path
 import copy,ctypes,json,math,os,struct,time,uuid
-from . import motion,mask_source
+from . import motion,mask_source,local_workers
 from .fileio import io_path
 
 PRODUCERS={
@@ -62,6 +62,7 @@ def begin(jobs,request,token,executable,kind,renders=None):
     if Path(os.path.abspath(request['output_directory']))!=run:raise ValueError('Live exact output owner')
     exe=motion.owned(executable,Path(executable).anchor);exe_sha=motion.digest(read(exe,64*1024*1024))
     fp=next((k for k,v in PRODUCERS.items() if v==exe_sha),None)
+    if fp is None:fp=next((f for mode in local_workers.MODES for f,h in local_workers.pairs(mode) if h==exe_sha),None)
     if fp is None:raise ValueError('Unapproved interactive live binary')
     request_raw=read(motion.owned(run/'request.json',root),2*1024*1024)
     if mask_source.encoded(motion.decode(request_raw))!=mask_source.encoded(request):raise ValueError('Live request snapshot differs')
@@ -118,7 +119,9 @@ def registration(jobs,kind,expected=None):
     if type(d['solver_hz']) is not int or d['solver_hz'] not in (60,120):raise ValueError('Live fixed solver Hz')
     mask_source.sha(d['physics_input_hash']);mask_source.sha(d['request_sha256'])
     p=d['producer'];motion.exact(p,('implementation_version','build_fingerprint','binary_sha256'))
-    if p['implementation_version']!='0.4.0-live.1' or PRODUCERS.get(p['build_fingerprint'])!=p['binary_sha256']:raise ValueError('Live registration producer')
+    if p['implementation_version']!='0.4.0-live.1':raise ValueError('Live registration producer')
+    pair=(p['build_fingerprint'],p['binary_sha256'])
+    if PRODUCERS.get(pair[0])!=pair[1] and not any(pair in local_workers.pairs(mode) for mode in local_workers.MODES):raise ValueError('Live registration producer')
     root=Path(os.path.abspath(jobs));run=motion.owned(root/'runs'/d['job_id'],root)
     raw=read(motion.owned(run/'request.json',root),2*1024*1024)
     if motion.digest(raw)!=d['request_sha256']:raise ValueError('Live original request changed')

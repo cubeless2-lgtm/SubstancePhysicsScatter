@@ -1,0 +1,6 @@
+# Top plane z=0.25*y+0.5; extra vertex supplies minimum OBJ vertex count.
+v -0.5 -0.5 0.375
+v 0.5 -0.5 0.375
+v 0.5 0.5 0.625
+v -0.5 0.5 0.625
+f 1 2 3 4

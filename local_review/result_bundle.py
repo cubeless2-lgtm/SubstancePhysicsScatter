@@ -3,7 +3,7 @@ import hashlib,io,json
 from pathlib import Path
 from PIL import Image
 from substance_physics_scatter.fileio import io_path,logical_path
-from substance_physics_scatter import compat,motion
+from substance_physics_scatter import compat,motion,local_workers
 import review_contract as n1,pbr_contract as n2,job_assets,height_field
 
 PRODUCERS={
@@ -84,7 +84,8 @@ def get(candidate,work):
     if review:
         n2.exact(review,('event','build_fingerprint','binary_sha256'));ref=review['event']['review'];side_raw=sealed(root/'review-v1.json',ref['sha256'],byte_count=ref['bytes']);side=n2.rawjson(side_raw);implementation=side['producer']['implementation_version']
         producer_pair=(review['build_fingerprint'],review['binary_sha256'])
-        if implementation not in PRODUCERS or producer_pair not in (PRODUCERS.get(implementation),MOTION_PRODUCERS.get(implementation),LIVE_PRODUCERS.get(implementation),LIVE_PREVIOUS_PRODUCERS.get(implementation)):raise ValueError('Unapproved review producer')
+        mode={'0.4.0-review.2':'pbr','0.4.0-review.3':'periodic'}.get(implementation)
+        if implementation not in PRODUCERS or (producer_pair not in (PRODUCERS.get(implementation),MOTION_PRODUCERS.get(implementation),LIVE_PRODUCERS.get(implementation),LIVE_PREVIOUS_PRODUCERS.get(implementation)) and (mode is None or producer_pair not in local_workers.pairs(mode))):raise ValueError('Unapproved review producer')
         if implementation=='0.4.0-review.1':doc,hulls=n1.validate(root,review['event'],c['request'],*producer_pair)
         else:doc,decoded=n2.validate_artifacts(root,review['event'],c['request'],*producer_pair)
         if doc!=side or sha(result_raw)!=doc['result_sha256']:raise ValueError('Validated sidecar/result snapshot differs')

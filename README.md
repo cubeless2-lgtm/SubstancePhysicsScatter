@@ -1,5 +1,7 @@
 # Substance Physics Scatter
 
+새 PC에서 설치·빌드·실행: [Windows 빌드 안내](BUILDING.md)
+
 Designer 16.0.3 / Windows x64용 독립 물리 적층·텍스처 베이크 플러그인입니다.
 원본 상용 제품의 소스·그래프·에셋을 사용하지 않는 독자 구현입니다.
 
