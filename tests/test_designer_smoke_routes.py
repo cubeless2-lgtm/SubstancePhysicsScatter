@@ -16,7 +16,8 @@ class SmokeRoutes(unittest.TestCase):
         self.directory=self.root/'output/designer_bridge';self.directory.mkdir(parents=True);self.selection=self.directory/'smoke_selection.json'
     def tearDown(self):self.temp.cleanup()
     def test_default_and_all_fixed_routes_never_accept_a_caller_path(self):
-        self.assertEqual(self.router.selection(self.root),'file_mask');self.assertEqual(len(self.router.ROUTES),22)
+        self.assertEqual(self.router.selection(self.root),'file_mask');self.assertIn('external_panel_actual',self.router.ROUTES)
+        self.assertEqual(len(set(self.router.ROUTES.values())),len(self.router.ROUTES))
         calls=[]
         with mock.patch.object(runpy,'run_path',side_effect=lambda path,**kw:calls.append((path,kw)) or {'REPORT':'owned-report'}):
             self.assertEqual(self.router.run(),'owned-report')

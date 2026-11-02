@@ -207,9 +207,17 @@ static Placement place(const std::vector<Asset>& values,const std::vector<size_t
         if(!std::isfinite(pitch)||pitch<=0||!std::isfinite(width/pitch)||!std::isfinite(depth/pitch)||width/pitch>std::numeric_limits<int>::max()||depth/pitch>std::numeric_limits<int>::max())throw std::runtime_error("Invalid/non-finite grid calculation");
         uint64_t cols=std::max(uint64_t(1),uint64_t(width/pitch)),rows=std::max(uint64_t(1),uint64_t(depth/pitch)),cells=mask_mul(cols,rows);
         std::mt19937 mask_rng(s.value("seed",1u)^0x4D41534Bu);
+        std::mt19937 jitter_rng(s.value("seed",1u)^0x4A495454u);
         for(uint64_t j=0;attempt<maximum;j++){
             uint64_t cell=j%cells,layer=j/cells;
             float x=float((cell%cols+.5)*width/cols-width*.5),y=float((cell/cols+.5)*depth/rows-depth*.5),z=float(1.0+result.radius+layer*pitch);
+            if(s.value("placement_jitter",false)){
+                auto rand01=[&](){return double(jitter_rng())/4294967296.0;};
+                const double x_room=std::max(0.0,width/double(cols)-result.radius*2)*.4;
+                const double y_room=std::max(0.0,depth/double(rows)-result.radius*2)*.4;
+                x+=float((rand01()*2-1)*x_room);y+=float((rand01()*2-1)*y_room);
+                z+=float(rand01()*result.radius*.15);
+            }
             ++attempt;double top=double(z)+result.radius;
             if(!std::isfinite(x)||!std::isfinite(y)||!std::isfinite(z)||!std::isfinite(top))throw std::runtime_error("Non-finite initial placement");
             if(top>1000){reason="initial_height_limit";break;}

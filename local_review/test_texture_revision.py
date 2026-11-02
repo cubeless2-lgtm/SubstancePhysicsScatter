@@ -62,28 +62,29 @@ class TextureRevision(unittest.TestCase):
         old=copy.deepcopy(self.old);catalog={old['asset_id']:old};state=self.root/'assets.json';state.write_text(json.dumps(catalog),encoding='utf8');current=self.root/'current.json';current.write_bytes(b'CURRENT')
         async def exercise():
             with patch.multiple(s,WORK=self.root,state_path=state,assets=catalog,lock=asyncio.Lock()),patch.object(s,'is_busy',return_value=False),patch.object(s,'space_budget'):
-                jpeg=io.BytesIO();Image.new('RGB',(512,512),(14,82,176)).save(jpeg,format='JPEG');raw=jpeg.getvalue();upload=UploadFile(filename='added.jpg',file=io.BytesIO(raw));revised=await s.upload_textures(old['asset_id'],[upload]);self.assertEqual(revised['render_revision'],old['render_revision']);self.assertEqual(revised['metadata'],old['metadata']);row=revised['manual_textures'][-1];self.assertEqual(Path(row['source_path']).read_bytes(),raw);self.assertEqual(t.rgba(Path(row['path']).read_bytes()).tobytes(),Image.open(io.BytesIO(raw)).convert('RGBA').tobytes())
+                jpeg=io.BytesIO();Image.new('RGB',(512,512),(14,82,176)).save(jpeg,format='JPEG');raw=jpeg.getvalue();upload=UploadFile(filename='added.jpg',file=io.BytesIO(raw));revised=await s.upload_textures(old['asset_id'],[upload],s.identity(catalog[old['asset_id']]));self.assertEqual(revised['render_revision'],old['render_revision']);self.assertEqual(revised['metadata'],old['metadata']);row=revised['manual_textures'][-1];self.assertEqual(Path(row['source_path']).read_bytes(),raw);self.assertEqual(t.rgba(Path(row['path']).read_bytes()).tobytes(),Image.open(io.BytesIO(raw)).convert('RGBA').tobytes())
                 before=state.read_bytes();bad=io.BytesIO();Image.new('RGB',(128,128)).save(bad,format='PNG')
-                with self.assertRaises(ValueError):await s.upload_textures(old['asset_id'],[UploadFile(filename='bad.png',file=io.BytesIO(bad.getvalue()))])
+                with self.assertRaises(ValueError):await s.upload_textures(old['asset_id'],[UploadFile(filename='bad.png',file=io.BytesIO(bad.getvalue()))],s.identity(catalog[old['asset_id']]))
                 self.assertEqual(state.read_bytes(),before)
                 disguised=io.BytesIO();Image.new('RGB',(512,512)).save(disguised,format='BMP')
-                with self.assertRaises(ValueError):await s.upload_textures(old['asset_id'],[UploadFile(filename='disguised.png',file=io.BytesIO(disguised.getvalue()))])
+                with self.assertRaises(ValueError):await s.upload_textures(old['asset_id'],[UploadFile(filename='disguised.png',file=io.BytesIO(disguised.getvalue()))],s.identity(catalog[old['asset_id']]))
                 self.assertEqual(state.read_bytes(),before)
                 class Cancelled:
                     filename='cancel.png'
                     async def read(self,n):raise asyncio.CancelledError()
-                with self.assertRaises(asyncio.CancelledError):await s.upload_textures(old['asset_id'],[Cancelled()])
+                with self.assertRaises(asyncio.CancelledError):await s.upload_textures(old['asset_id'],[Cancelled()],s.identity(catalog[old['asset_id']]))
                 self.assertEqual(state.read_bytes(),before);self.assertEqual(current.read_bytes(),b'CURRENT')
         asyncio.run(exercise())
     def test_binding_handler_atomic_adoption_failure_preserves_old_revision(self):
         catalog={self.old['asset_id']:copy.deepcopy(self.old)};state=self.root/'assets.json';state.write_text(json.dumps(catalog),encoding='utf8');before=state.read_bytes()
         with patch.multiple(s,WORK=self.root,state_path=state,assets=catalog,lock=asyncio.Lock()),patch.object(s,'is_busy',return_value=False),patch.object(s,'space_budget'),patch.object(s,'write',side_effect=OSError('TEST_ONLY catalog failure')):
-            with self.assertRaises(OSError):asyncio.run(s.edit_material(self.old['asset_id'],s.MaterialEdit(bindings=self.edits)))
+            with self.assertRaises(OSError):asyncio.run(s.edit_material(self.old['asset_id'],s.MaterialEdit(bindings=self.edits),s.identity(catalog[self.old['asset_id']])))
         self.assertEqual(state.read_bytes(),before);self.assertEqual(catalog[self.old['asset_id']],self.old)
     def test_Three_declared_colorspace_clones_and_draft_preserved(self):
         script=r"""import * as THREE from 'three';import {applyTextureColorSpaces} from './web/ui2.js';import fs from 'node:fs';import assert from 'node:assert/strict';
 const shared=new THREE.Texture();shared.colorSpace=THREE.SRGBColorSpace;const material=new THREE.MeshStandardMaterial({map:shared,roughnessMap:shared,metalnessMap:shared,normalMap:shared});material.userData.review_texture_preview={version:1,base_color_space:'linear'};const root=new THREE.Group();root.add(new THREE.Mesh(new THREE.BufferGeometry(),material));applyTextureColorSpaces(root);assert.equal(material.map.colorSpace,THREE.NoColorSpace);assert.equal(shared.colorSpace,THREE.SRGBColorSpace);assert.notEqual(material.map,material.normalMap);assert.equal(material.normalMap.colorSpace,THREE.NoColorSpace);material.userData.review_texture_preview.version=2;assert.throws(()=>applyTextureColorSpaces(root));
 const app=fs.readFileSync('web/app.js','utf8'),drafts=new Map();const draft=eval('('+app.match(/function draft\(a\)\{[^\n]+/)[0]+')');const a={asset_id:'a',scale:1,weight:1,metadata:{units:'m',source_up_axis:'Z'},render_revision:'old'};const d=draft(a);Object.assign(d,{scale:2.75,weight:8,selected:false,material_bindings:{old:1}});a.render_revision='new';assert.equal(draft(a).scale,2.75);assert.equal(d.weight,8);assert.equal(d.selected,false);assert.equal(d.material_bindings,undefined);
+const b={asset_id:'b',scale:1,weight:1,metadata:{units:'m',source_up_axis:'Z'},render_revision:'render1',asset_revision:'revision1'};const edited=draft(b);Object.assign(edited,{material_factors:{slot:{roughness_factor:.25}},material_bindings:{slot:{normal:'pending'}},_dirty_material:{factors:true,bindings:true},_material_base_revision:'revision1'});b.asset_revision='revision2';b.render_revision='render2';assert.equal(draft(b)._material_stale,true);assert.equal(edited.material_factors.slot.roughness_factor,.25);assert.equal(edited.material_bindings.slot.normal,'pending');assert.equal(edited._material_base_revision,'revision1');
 """
         r=subprocess.run(['node','--input-type=module','-'],input=script,text=True,encoding='utf8',capture_output=True,cwd=BASE,timeout=15);self.assertEqual(r.returncode,0,r.stderr)
 

@@ -1,15 +1,25 @@
 import * as THREE from 'three';
 import {previewCosts,previewPlan} from './ui2.js';
 
-// One latest frame in flight, no history, interpolation or completed-result mutation.
+export function wrapStart(start,end,region){
+ if(region.edges==='periodic'){
+  if(Math.abs(end.x-start.x)>region.width/2)start.x=end.x;
+  if(Math.abs(end.y-start.y)>region.depth/2)start.y=end.y;
+ }
+ return start;
+}
+
+// Interpolate observed poses for display only; authoritative results remain unchanged.
 export function livePreview({endpoint,fetchJSON,world,renderer,camera,scene,build,getHidden,replay,fit,repeat=()=>1,onRun=()=>{}}){
  if(!document.getElementById('live-preview-style')){const style=document.createElement('link');style.id='live-preview-style';style.rel='stylesheet';style.href='/web/live.css';document.head.append(style);}
  let epoch=0,key=null,sequence=-1,active=null,timer=null,inFlight=false,stopped=false,closed=new Set(),visible=new Map();
+ let transition=null,lastArrival=0,renderTimes=[],arrivalTimes=[],measuring=false;
+ const visibilityReset=()=>{if(document.hidden){measuring=false;lastArrival=0;renderTimes=[];arrivalTimes=[];}};document.addEventListener('visibilitychange',visibilityReset);
  const note=document.createElement('div');note.className='live-note';note.hidden=true;renderer.domElement.parentElement.append(note);
  function mark(status,value=null){document.body.dataset.live=status;document.body.dataset.liveJob=value?.job_id||'';document.body.dataset.liveToken=value?.token||'';document.body.dataset.liveSequence=String(value?.sequence??'');document.body.dataset.liveTime=String(value?.frame?.time??'');}
  function release(value){if(!value)return;world.remove(value.group);value.group.clear();for(const asset of value.assets)asset.dispose?.();for(const resource of value.owned)resource.dispose();}
  function restore(){for(const [object,shown] of visible)object.visible=shown;visible.clear();replay()?.suspend(false);}
- function close(status='idle',remember=true){epoch++;if(key&&remember){closed.add(key);if(closed.size>8)closed.delete(closed.values().next().value);}release(active);active=null;restore();key=null;sequence=-1;note.hidden=true;mark(status);}
+ function close(status='idle',remember=true){epoch++;if(key&&remember){closed.add(key);if(closed.size>8)closed.delete(closed.values().next().value);}release(active);active=null;transition=null;lastArrival=0;measuring=false;renderTimes=[];arrivalTimes=[];delete document.body.dataset.renderFps;delete document.body.dataset.liveFrameIntervalMs;restore();key=null;sequence=-1;note.hidden=true;mark(status);}
  function hide(){for(const o of getHidden().filter(Boolean))if(!visible.has(o)){visible.set(o,o.visible);o.visible=false;}replay()?.suspend(true);}
  function valid(ticket,id){return !stopped&&ticket===epoch&&key===id&&!closed.has(id);}
  function poses(value){const f=value.frame;if(!f||f.job_id!==value.job_id||f.nonce!==value.token||f.sequence!==value.sequence||!Number.isSafeInteger(f.sequence)||f.sequence<1||!Number.isFinite(f.time)||f.coordinate_system!=='RH_Z_UP'||f.units!=='meters'||f.positions?.length!==f.bodies?.length||f.rotations?.length!==f.bodies?.length)throw new Error('LIVE 프레임 소유권/형식 오류');for(let i=0;i<f.bodies.length;i++)if(f.positions[i]?.length!==3||f.rotations[i]?.length!==4||![...f.positions[i],...f.rotations[i],f.bodies[i].scale].every(Number.isFinite))throw new Error('LIVE pose 형식 오류');return f;}
@@ -34,15 +44,34 @@ export function livePreview({endpoint,fetchJSON,world,renderer,camera,scene,buil
   }catch(error){release(valueScene);throw error;}
  }
  function apply(s,f){if(JSON.stringify(f.bodies)!==s.bodies)throw new Error('LIVE 실행 중 body identity 변경');const indices=new Map(f.bodies.map((b,i)=>[b.id,i]));for(const item of s.instances){const i=indices.get(item.id);if(i===undefined)throw new Error('LIVE body 누락');item.object.position.fromArray(f.positions[i]);item.object.quaternion.fromArray(f.rotations[i]);item.object.scale.setScalar(item.scale);}}
+ function observe(s,f,region){
+  if(JSON.stringify(f.bodies)!==s.bodies)throw new Error('LIVE 실행 중 body identity 변경');
+  const now=performance.now(),indices=new Map(f.bodies.map((b,i)=>[b.id,i]));
+  const duration=lastArrival?Math.min(100,Math.max(16,now-lastArrival)):0;
+  if(measuring&&lastArrival){arrivalTimes.push(now-lastArrival);if(arrivalTimes.length>120)arrivalTimes.shift();}
+  lastArrival=measuring?now:0;
+  const byBody=new Map();for(const item of s.instances){let objects=byBody.get(item.id);if(!objects){objects=[];byBody.set(item.id,objects);}objects.push(item.object);}
+  const moves=Array.from(byBody,([id,objects])=>{const i=indices.get(id);if(i===undefined)throw new Error('LIVE body 누락');const object=objects[0],end=new THREE.Vector3().fromArray(f.positions[i]);const start=object.position.clone();
+   // A periodic wrap is a coordinate jump, not travel across the whole tile.
+   wrapStart(start,end,region);
+   return {objects,start,end,rotation:object.quaternion.clone(),target:new THREE.Quaternion().fromArray(f.rotations[i])};});
+  transition={start:now,duration,moves};if(!duration)tick(now);
+ }
+ function tick(now){
+  if(document.hidden||!measuring){lastArrival=0;renderTimes=[];arrivalTimes=[];delete document.body.dataset.renderFps;delete document.body.dataset.liveFrameIntervalMs;}
+  if(active&&measuring&&!document.hidden){renderTimes.push(now);while(renderTimes.length&&renderTimes[0]<now-1000)renderTimes.shift();document.body.dataset.renderFps=String(renderTimes.length);if(arrivalTimes.length)document.body.dataset.liveFrameIntervalMs=(arrivalTimes.reduce((a,b)=>a+b,0)/arrivalTimes.length).toFixed(1);}
+  if(!transition)return;const alpha=transition.duration?Math.min(1,(now-transition.start)/transition.duration):1;
+  for(const m of transition.moves){const first=m.objects[0];first.position.lerpVectors(m.start,m.end,alpha);first.quaternion.slerpQuaternions(m.rotation,m.target,alpha);for(let i=1;i<m.objects.length;i++){m.objects[i].position.copy(first.position);m.objects[i].quaternion.copy(first.quaternion);}}if(alpha>=1)transition=null;
+ }
  async function update(value){
   if(stopped)return;
   const id=`${value.job_id}:${value.token}`;
   if(['idle','failed','cancelled','error'].includes(value.status)){if(active||key)close(value.status);if(value.error){note.hidden=false;note.textContent='LIVE 미리보기 중단 · 이전 정상 결과 유지: '+value.error;}return;}
-  if(value.status==='completed'){if(key===id&&active){note.textContent='계산 완료 · 최종 결과 검증/전환 중 · 지도는 이전 정상 결과';mark('validating',value);}return;}
+  if(value.status==='completed'){measuring=false;if(key===id&&active){note.textContent='계산 완료 · 최종 결과 검증/전환 중 · 지도는 이전 정상 결과';mark('validating',value);}return;}
   if(!['starting','running','baking'].includes(value.status)||closed.has(id))return;
   if(id!==key){close('starting',false);key=id;sequence=-1;onRun(value);}
   const ticket=epoch;if(!value.frame){mark('starting',value);return;}poses(value);
-  if(!active){const staged=await staging(value,ticket,id);if(!staged)return;if(!valid(ticket,id)){release(staged.scene);return;}value=staged.value;active=staged.scene;world.add(active.group);hide();fit(active.group);stamp(value);
+  if(!active){const staged=await staging(value,ticket,id);if(!staged)return;if(!valid(ticket,id)){release(staged.scene);return;}value=staged.value;active=staged.scene;world.add(active.group);hide();stamp(value);
    if(value.frame.ready_status==='waiting'){
     renderer.render(scene,camera);await new Promise((resolve,reject)=>{const deadline=setTimeout(()=>reject(new Error('뷰어 첫 렌더 대기시간 초과')),1000);requestAnimationFrame(()=>requestAnimationFrame(()=>{clearTimeout(deadline);resolve();}));});
     if(!valid(ticket,id))return;
@@ -51,12 +80,13 @@ export function livePreview({endpoint,fetchJSON,world,renderer,camera,scene,buil
    }
   }
   if(!valid(ticket,id))return;
-  if(value.sequence>sequence){apply(active,poses(value));sequence=value.sequence;}
+  measuring=value.status==='running'&&['acknowledged','timeout'].includes(value.frame.ready_status)&&!document.hidden;
+  if(value.sequence>sequence){observe(active,poses(value),value.region);sequence=value.sequence;}
   else if(value.sequence<sequence)return;
   hide();stamp(value);
  }
  async function poll(){if(inFlight||stopped)return;inFlight=true;try{if(!document.hidden)await update(await fetchJSON(endpoint));}catch(error){close('error');note.hidden=false;note.textContent='LIVE 표시 실패 · 이전 정상 결과 유지: '+(error.message||error);}finally{inFlight=false;if(!stopped)timer=setTimeout(poll,document.hidden?500:33);}}
- return {start(){stopped=false;if(timer===null)poll();},commit(job){if(active&&key?.startsWith(job+':'))close('completed');},cancel(){close('cancelled');},get active(){return !!active;},get run(){return key;},dispose(){stopped=true;clearTimeout(timer);timer=null;close();}};
+ return {tick,start(){stopped=false;if(timer===null)poll();},commit(job){if(active&&key?.startsWith(job+':'))close('completed');},cancel(){close('cancelled');},get active(){return !!active;},get run(){return key;},dispose(){stopped=true;document.removeEventListener('visibilitychange',visibilityReset);clearTimeout(timer);timer=null;close();}};
 }
 
 export async function liveGeometry(asset,fetchJSON,loadGLB,colors){

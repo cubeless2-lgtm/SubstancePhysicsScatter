@@ -17,7 +17,7 @@
     "simulation_key":{"type":"string","pattern":"^[0-9a-f]{64}$"},
     "output_directory":{"type":"string"},
     "poses_path":{"type":"string"},
-    "simulation":{"type":"object","additionalProperties":false,"required":["count","width","depth","seconds","seed","edges","friction","restitution"],"properties":{"count":{"type":"integer","minimum":1,"maximum":5000},"width":{"type":"number","minimum":0.1,"maximum":1000},"depth":{"type":"number","minimum":0.1,"maximum":1000},"seconds":{"type":"number","minimum":0.1,"maximum":120},"seed":{"type":"integer","minimum":0,"maximum":4294967295},"friction":{"type":"number","minimum":0,"maximum":2},"restitution":{"type":"number","minimum":0,"maximum":1},"edges":{"enum":["open","walls"]}}},
+    "simulation":{"type":"object","additionalProperties":false,"required":["count","width","depth","seconds","seed","edges","friction","restitution"],"properties":{"count":{"type":"integer","minimum":1,"maximum":5000},"width":{"type":"number","minimum":0.1,"maximum":1000},"depth":{"type":"number","minimum":0.1,"maximum":1000},"seconds":{"type":"number","minimum":0.1,"maximum":120},"seed":{"type":"integer","minimum":0,"maximum":4294967295},"friction":{"type":"number","minimum":0,"maximum":2},"restitution":{"type":"number","minimum":0,"maximum":1},"placement_jitter":{"type":"boolean"},"edges":{"enum":["open","walls"]}}},
     "bake":{"type":"object","properties":{"resolution":{"type":"integer","minimum":16,"maximum":8192},"normal":{"enum":["DirectX","OpenGL"]}}}
   },
   "allOf":[

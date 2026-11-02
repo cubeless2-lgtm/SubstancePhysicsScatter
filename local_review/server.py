@@ -3,28 +3,33 @@ from __future__ import annotations
 import asyncio,copy,hashlib,json,math,os,re,secrets,shlex,sys,time,uuid,struct
 from pathlib import Path
 from typing import Literal
-from fastapi import FastAPI,Request,HTTPException,UploadFile,File,Form
+from fastapi import FastAPI,Request,HTTPException,UploadFile,File,Form,Header
 from fastapi.responses import FileResponse,HTMLResponse,JSONResponse,Response
 from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel,ConfigDict,Field,model_validator
+from PIL import UnidentifiedImageError
 
 BASE=Path(__file__).resolve().parent;ROOT=BASE.parent;WORK=BASE/'workspace';WORK.mkdir(exist_ok=True)
 sys.path.insert(0,str(ROOT/'plugin'))
 from substance_physics_scatter.core import Jobs,atomic_json
 from substance_physics_scatter.fileio import io_path,logical_path
-from substance_physics_scatter import motion,live_preview,local_workers
+from substance_physics_scatter import motion,live_preview,local_workers,viewer_identity
 import import_contract,review_contract,canonical_contract,job_assets,result_bundle,pbr_contract,material_revision,result_export,saved_provenance,texture_revision,stored_assets,stored_hulls
-import designer_review
+import designer_review,designer_handoff,graph_mask_handoff,import_cleanup
 MAX_UPLOAD=128*1024*1024;FILE_LIMIT=32*1024*1024;PORT=int(os.environ.get('SCATTER_REVIEW_PORT','8765'))
 ORIGIN=f'http://127.0.0.1:{PORT}';TOKEN=secrets.token_hex(32);LOG_LIMIT=4*1024*1024
 BLENDER=Path(os.environ.get('SCATTER_BLENDER','C:/Program Files/Blender Foundation/Blender 5.2/blender.exe'))
 WORKER=ROOT/'build/Release/scatter_worker.exe'
 REVIEW_WORKER=ROOT/'build-review/Release/scatter_worker_review.exe'
 BUILD_FINGERPRINT=ROOT/'build-review/review-build-fingerprint.txt'
-PBR_WORKER=ROOT/'build-review-live-ready1/Release/scatter_worker_pbr_live.exe'
-PBR_FINGERPRINT=ROOT/'build-review-live-ready1/pbr-build-fingerprint.txt'
-PERIODIC_WORKER=ROOT/'build-review-live-ready1/Release/scatter_worker_periodic_live.exe'
-PERIODIC_FINGERPRINT=ROOT/'build-review-live-ready1/periodic-build-fingerprint.txt'
+LIVE_BUILD=local_workers.BUILD
+PBR_WORKER=LIVE_BUILD/'Release/scatter_worker_pbr_live.exe'
+PBR_FINGERPRINT=LIVE_BUILD/'pbr-build-fingerprint.txt'
+PERIODIC_WORKER=LIVE_BUILD/'Release/scatter_worker_periodic_live.exe'
+PERIODIC_FINGERPRINT=LIVE_BUILD/'periodic-build-fingerprint.txt'
+
+JITTER_READY=all(local_workers.supports_jitter(LIVE_BUILD,mode) for mode in ('pbr','periodic'))
+def jitter_ready():return JITTER_READY
 
 def periodic_ready():
     return '0.4.0-review.3' in result_bundle.PRODUCERS and PERIODIC_WORKER.is_file() and PERIODIC_FINGERPRINT.is_file()
@@ -54,7 +59,7 @@ def space_budget(reserve=128*1024*1024):
     for p in io_path(WORK).rglob('*'):
         if p.is_file():
             owned(p);total+=p.stat().st_size
-            if total+reserve>2*1024*1024*1024:raise ValueError('Review workspace2GiB budget exceeded; preserve/archive it before adding more data')
+            if total+reserve>4*1024*1024*1024:raise ValueError('Review workspace4GiB budget exceeded; preserve/archive it before adding more data')
 def bundle_links(folder,obj):
     names={p.name.casefold() for p in folder.iterdir()};total=0
     for path in [obj,*folder.glob('*.mtl')]:
@@ -86,11 +91,16 @@ class LiveReady(Strict):
 class AssetChoice(Strict):
     asset_id:str=Field(pattern='^[0-9a-f]{32}$');scale:float=Field(gt=0,le=100);weight:float=Field(ge=0,le=1000000)
 class Sim(Strict):
-    count:int=Field(default=40,ge=1,le=5000);width:float=Field(default=4,ge=.1,le=1000);depth:float=Field(default=4,ge=.1,le=1000);seconds:float=Field(default=12,ge=.1,le=120);seed:int=Field(default=1,ge=0,le=4294967295);edges:Literal['open','walls','periodic']='walls'
+    count:int=Field(default=40,ge=1,le=5000);width:float=Field(default=4,ge=.1,le=1000);depth:float=Field(default=4,ge=.1,le=1000);seconds:float=Field(default=12,ge=.1,le=120);seed:int=Field(default=1,ge=0,le=4294967295);edges:Literal['open','walls','periodic']='walls';friction:float=Field(default=0.6,ge=0,le=2);restitution:float=Field(default=0.05,ge=0,le=1);placement_jitter:bool=False
 class Bake(Strict):
     resolution:int=Field(default=512,ge=16,le=2048);height_min:float=Field(default=0,ge=-1000,le=1000);height_max:float=Field(default=2,ge=-1000,le=1000);normal:Literal['DirectX','OpenGL']='OpenGL';samples:int=Field(default=1,ge=1,le=4)
 class Run(Strict):
-    assets:list[AssetChoice]=Field(min_length=1,max_length=6);simulation:Sim;bake:Bake;mask_id:str|None=None
+    assets:list[AssetChoice]=Field(min_length=1,max_length=6);simulation:Sim;bake:Bake;mask_id:str|None=None;graph_mask_provenance_sha256:str|None=Field(default=None,pattern='^[0-9a-f]{64}$');designer_draft_revision:str|None=Field(default=None,pattern='^[0-9a-f]{32}$');expected_current_job_id:str|None=Field(default=None,pattern='^[0-9a-f]{32}$')
+class DraftSubmit(Strict):
+    settings:Run
+    expected_revision:str|None=Field(pattern='^[0-9a-f]{32}$')
+    expected_current_job_id:str|None=Field(pattern='^[0-9a-f]{32}$')
+    expected_asset_revisions:dict[str,dict[str,str|None]]
 class RoleSetting(Strict):
     mode:Literal['auto','none','texture']='auto';texture_id:str|None=Field(default=None,pattern='^[0-9a-f]{64}$');channel:Literal['r','g','b','rgb']|None=None;color_space:Literal['sRGB','linear']|None=None;wrap:Literal['repeat','clamp']|None=None;normal_convention:Literal['OpenGL','DirectX']|None=None
 class Normalization(Strict):
@@ -123,6 +133,36 @@ class MaterialEdit(Strict):
 
 app=FastAPI(docs_url=None,redoc_url=None,openapi_url=None);lock=asyncio.Lock();jobs=Jobs(WORK/'jobs');process=None;task=None;runtime_latched=False
 state_path=WORK/'assets.json';assets=read(state_path) if state_path.exists() else {};run_state=dict(status='idle',token=None,events=[],error=None,settings_hash=None)
+designer_draft=None;draft_lock=asyncio.Lock()
+
+def _draft_assets(body):
+    revisions={}
+    for item in body.assets:
+        a=assets.get(item.asset_id)
+        if not a or not a.get('enabled') or item.asset_id in revisions:raise ValueError('Draft asset missing or duplicated')
+        revisions[item.asset_id]=dict(render_revision=a.get('render_revision'),material_revision=a.get('material_revision'),physics_sha256=a.get('metadata',{}).get('files',{}).get('physics.obj'))
+    return revisions
+
+def _draft_guard(body):
+    if body.designer_draft_revision is None:
+        if body.expected_current_job_id is not None:
+            current=jobs.current
+            if not current or current['job_id']!=body.expected_current_job_id:raise ValueError('Viewer current result changed')
+        return
+    draft=designer_draft
+    if draft is None or body.designer_draft_revision!=draft['revision']:raise ValueError('Designer draft changed; submit viewer settings again')
+    current=jobs.current;current_id=current['job_id'] if current else None
+    if body.expected_current_job_id!=draft['current_job_id'] or current_id!=draft['current_job_id']:raise ValueError('Viewer current result changed; submit settings again')
+    supplied=body.model_dump();fixed=draft['settings']
+    for name in ('assets','simulation','bake'):
+        if supplied[name]!=fixed[name]:raise ValueError('Designer draft settings changed')
+    if body.graph_mask_provenance_sha256 is None and body.mask_id!=fixed['mask_id']:raise ValueError('Designer draft mask changed')
+    if _draft_assets(body)!=draft['asset_revisions']:raise ValueError('Designer draft assets changed')
+
+def _settings_snapshot(body):
+    value=body.model_dump();value.pop('designer_draft_revision');value.pop('expected_current_job_id')
+    if value.get('graph_mask_provenance_sha256') is None:value.pop('graph_mask_provenance_sha256')
+    return value
 
 @app.middleware('http')
 async def boundary(request:Request,call_next):
@@ -144,6 +184,7 @@ async def value_error(request,error):return JSONResponse({'detail':str(error)},4
 
 def public_asset(a):
     value={k:v for k,v in a.items() if k not in ('source','folder','physics')}
+    value['asset_revision']=identity(a)
     value['geometry_reimport_available']=bool(a.get('source')) and io_path(Path(a['source'])).is_file()
     value['source_path_missing']=not value['geometry_reimport_available'] or not io_path(Path(a.get('folder',''))/'scene.glb').is_file()
     return value
@@ -155,8 +196,12 @@ def current():
         producer=bundle['inherited']['producer'] if bundle.get('inherited') else doc['producer']
         verified=dict(implementation=producer['implementation_version'],hull_count=len(bundle['hulls']['hulls']),url=f'/api/hulls/{c["job_id"]}',status=bundle['hull_status'],origin_job_id=bundle['inherited']['origin_job_id'] if bundle.get('inherited') else c['job_id'])
     return dict(job_id=c['job_id'],poses=c['result']['poses'],spawned_count=c['result'].get('spawned_count'),requested_count=c['result'].get('requested_count'),spawn_status=c['result'].get('spawn_status'),stop_reason=c['result'].get('spawn_stop_reason'),execution=c['result']['execution'],settings=saved,review=verified,periodic=bundle.get('periodic'),hull_status=bundle['hull_status'],hull_reason=bundle.get('hull_reason'),maps={k:d['url'] for k,d in bundle['descriptors'].items()},map_descriptors=bundle['descriptors'],height_field=dict(metadata_url=f'/api/height/{c["job_id"]}',data_url=f'/api/height/{c["job_id"]}/data'),motion=motion.links(bundle['motion']['metadata'],f'/api/motion/{c["job_id"]}/metadata',f'/api/motion/{c["job_id"]}/data'),pipeline='N3 periodic PBR' if bundle.get('periodic') else 'N2 material PBR' if 'basecolor' in bundle['descriptors'] else 'N1 geometry/HNC' if doc else 'legacy HNC')
+@app.get('/api/viewer-health')
+async def viewer_health():
+    return dict(application=viewer_identity.APPLICATION,protocol_version=viewer_identity.PROTOCOL_VERSION,project_root_sha256=viewer_identity.root_sha256(ROOT),authentication=viewer_identity.AUTHENTICATION,process_id=os.getpid())
+
 @app.get('/api/state')
-async def get_state():return dict(session_token=TOKEN,assets=[public_asset(a) for a in assets.values()],job=run_state,current=current(),operation_busy=is_busy(),capabilities=dict(obj=True,basic_glb_materials=True,hull=PBR_WORKER.is_file(),fbx=True,pbr_bake=PBR_WORKER.is_file(),seamless_periodic=periodic_ready(),selected_asset_limit=6),runtime=dict(worker_exists=PBR_WORKER.is_file(),blender_exists=BLENDER.is_file(),cleanup_latched=runtime_latched))
+async def get_state():return dict(session_token=TOKEN,assets=[public_asset(a) for a in assets.values()],job=run_state,current=current(),operation_busy=is_busy(),capabilities=dict(obj=True,basic_glb_materials=True,hull=PBR_WORKER.is_file(),fbx=True,pbr_bake=PBR_WORKER.is_file(),seamless_periodic=periodic_ready(),placement_jitter=jitter_ready(),selected_asset_limit=6),runtime=dict(worker_exists=PBR_WORKER.is_file(),blender_exists=BLENDER.is_file(),cleanup_latched=runtime_latched))
 
 async def bounded(argv,folder,timeout,cancel=None,events=False):
     global process,runtime_latched
@@ -254,54 +299,96 @@ async def upload(files:list[UploadFile]=File(...),units:str=Form('m'),up_axis:st
         space_budget()
         if sum(a['enabled'] for a in assets.values())>=32:raise ValueError('Active asset library limit32')
         if not 1<=len(files)<=20:raise ValueError('Upload 1 OBJ and up to19 flat sidecars')
-        folder=owned(WORK/'imports'/uuid.uuid4().hex);folder.mkdir(parents=True);seen=set();total=0;obj=[]
-        for upload in files:
-            name=safe_name(upload.filename);suffix=Path(name).suffix.lower()
-            if name.casefold() in seen or suffix not in ('.obj','.fbx','.mtl','.png','.jpg','.jpeg'):raise ValueError('Duplicate or unsupported upload file')
-            seen.add(name.casefold());path=owned(folder/name)
-            with io_path(path).open('xb') as out:
-                size=0
-                while data:=await upload.read(1024*1024):
-                    size+=len(data);total+=len(data)
-                    if size>FILE_LIMIT or total>MAX_UPLOAD:raise ValueError('Upload byte budget exceeded')
-                    out.write(data)
-            if suffix in ('.obj','.fbx'):obj.append(path)
-        if len(obj)!=1:raise ValueError('Exactly one OBJ/FBX per upload bundle')
-        if obj[0].suffix.lower()=='.obj':bundle_links(folder,obj[0])
-        settings=Normalization(units=units,up_axis=up_axis,forward_axis=forward_axis,import_mode=import_mode,parts_mode=parts_mode)
-        imported=await normalize(folder,obj[0],settings)
-        if sum(a['enabled'] for a in assets.values())+len(imported)>32:raise ValueError('Active asset library limit32')
-        for a in imported:assets[a['asset_id']]=a
-        write(state_path,assets);return public_asset(imported[0]) if len(imported)==1 else dict(assets=[public_asset(a) for a in imported])
+        import_id=uuid.uuid4().hex;folder=owned(WORK/'imports'/import_id);folder.mkdir(parents=True);seen=set();total=0;obj=[]
+        normalize_started=False;catalog_write_started=False;catalog_before=None;promoted=False
+        try:
+            for upload in files:
+                name=safe_name(upload.filename);suffix=Path(name).suffix.lower()
+                if name.casefold() in seen or suffix not in ('.obj','.fbx','.mtl','.png','.jpg','.jpeg'):raise ValueError('Duplicate or unsupported upload file')
+                seen.add(name.casefold());path=owned(folder/name)
+                with io_path(path).open('xb') as out:
+                    size=0
+                    while data:=await upload.read(1024*1024):
+                        size+=len(data);total+=len(data)
+                        if size>FILE_LIMIT or total>MAX_UPLOAD:raise ValueError('Upload byte budget exceeded')
+                        out.write(data)
+                if suffix in ('.obj','.fbx'):obj.append(path)
+            if len(obj)!=1:raise ValueError('Exactly one OBJ/FBX per upload bundle')
+            if obj[0].suffix.lower()=='.obj':bundle_links(folder,obj[0])
+            settings=Normalization(units=units,up_axis=up_axis,forward_axis=forward_axis,import_mode=import_mode,parts_mode=parts_mode)
+            normalize_started=True
+            imported=await normalize(folder,obj[0],settings)
+            if sum(a['enabled'] for a in assets.values())+len(imported)>32:raise ValueError('Active asset library limit32')
+            staged=dict(assets)
+            for a in imported:staged[a['asset_id']]=a
+            catalog_before=io_path(state_path).read_bytes() if io_path(state_path).exists() else None
+            catalog_write_started=True
+            write(state_path,staged)
+            promoted=True
+            for a in imported:assets[a['asset_id']]=a
+            return public_asset(imported[0]) if len(imported)==1 else dict(assets=[public_asset(a) for a in imported])
+
+        except BaseException as error:
+            # Cancellation while background image conversion / process startup is
+            # unresolved is never evidence that the directory is safe to remove.
+            cleanup_ok=not promoted and (not normalize_started or isinstance(error,Exception) and process is None and not runtime_latched)
+            if cleanup_ok and catalog_write_started:
+                try:cleanup_ok=(io_path(state_path).read_bytes() if io_path(state_path).exists() else None)==catalog_before
+                except OSError:cleanup_ok=False
+            if cleanup_ok:
+                try:import_cleanup.clean(WORK,folder,import_id)
+                except Exception as cleanup_error:
+                    if isinstance(error,Exception):raise ValueError('Import failed: '+str(error)+'; cleanup unconfirmed, preserved '+str(folder)+': '+str(cleanup_error)) from error
+                    import logging;logging.getLogger(__name__).warning('Import cleanup not confirmed; preserved %s: %s',folder,cleanup_error)
+                else:
+                    if isinstance(error,ValueError) and str(error)=='Process failed; see owned stdout/stderr logs':
+                        raise ValueError('Import conversion failed; temporary import files were cleaned. Check that the asset is valid and supported.') from error
+            elif not promoted:
+                if isinstance(error,Exception):raise ValueError('Import failed: '+str(error)+'; cleanup unconfirmed, preserved '+str(folder)) from error
+                import logging;logging.getLogger(__name__).warning('Import cleanup not confirmed; preserved %s',folder)
+            raise
+
+def require_asset_revision(asset_id,revision):
+    if not isinstance(revision,str) or not re.fullmatch('[0-9a-f]{64}',revision):raise HTTPException(428,'자산 버전이 필요합니다. 뷰어를 새로고침하고 다시 시도하세요.')
+    current=assets.get(asset_id)
+    if current is None or not current.get('enabled'):raise HTTPException(409,'자산이 변경되거나 삭제됐습니다. 새로고침하고 다시 확인하세요.')
+    if not secrets.compare_digest(identity(current),revision):raise HTTPException(409,'자산이 다른 창에서 변경됐습니다. 새로고침하고 다시 확인하세요.')
+    return current
 
 @app.post('/api/assets/{asset_id}/normalize')
-async def renormalize(asset_id:str,settings:Normalization):
+async def renormalize(asset_id:str,settings:Normalization,expected_revision:str|None=Header(default=None,alias='X-Asset-Revision')):
     uid(asset_id)
     if is_busy():raise HTTPException(409,'Another operation is active')
     if asset_id not in assets:raise HTTPException(404)
     async with lock:
-        old=assets[asset_id];source=owned(old['source'])
+        old=require_asset_revision(asset_id,expected_revision);source=owned(old['source'])
         if not io_path(source).is_file():raise ValueError('geometry 재가져오기는 원래 source 경로가 필요합니다. 저장 closure는 preview/재질 편집/Saved용으로 재사용하며 DCC import 문맥은 추측하지 않습니다.')
         imported=await normalize(source.parent,source,settings)
-        assets[asset_id]['enabled']=False
-        for a in imported:a.update(scale=old['scale'],weight=old['weight']);assets[a['asset_id']]=a
-        write(state_path,assets);return public_asset(imported[0]) if len(imported)==1 else dict(assets=[public_asset(a) for a in imported])
+        staged=dict(assets);staged[asset_id]=dict(old,enabled=False)
+        for a in imported:a.update(scale=old['scale'],weight=old['weight']);staged[a['asset_id']]=a
+        write(state_path,staged);assets.clear();assets.update(staged)
+        return public_asset(imported[0]) if len(imported)==1 else dict(assets=[public_asset(a) for a in imported])
 @app.delete('/api/assets/{asset_id}')
-async def remove(asset_id:str):
+async def remove(asset_id:str,expected_revision:str|None=Header(default=None,alias='X-Asset-Revision')):
     uid(asset_id)
     if is_busy():raise HTTPException(409,'Another operation is active')
     if asset_id not in assets:raise HTTPException(404)
-    # Keep derivatives referenced by last-good poses; deletion is a library tombstone.
-    assets[asset_id]['enabled']=False;write(state_path,assets);return {'removed':asset_id}
+    async with lock:
+        old=require_asset_revision(asset_id,expected_revision)
+        # Keep derivatives referenced by last-good poses; deletion is a library tombstone.
+        staged=dict(assets);staged[asset_id]=dict(old,enabled=False)
+        write(state_path,staged);assets[asset_id]=staged[asset_id]
+        return {'removed':asset_id}
 
 @app.post('/api/assets/{asset_id}/material')
-async def edit_material(asset_id:str,body:MaterialEdit):
+async def edit_material(asset_id:str,body:MaterialEdit,expected_revision:str|None=Header(default=None,alias='X-Asset-Revision')):
     uid(asset_id)
     if is_busy():raise HTTPException(409,'Another operation is active')
     if asset_id not in assets or not assets[asset_id]['enabled']:raise HTTPException(404)
     async with lock:
+        current_asset=require_asset_revision(asset_id,expected_revision)
         space_budget()
-        old=stored_assets.stage(assets[asset_id],jobs.current,WORK,WORK/'derived-assets'/uuid.uuid4().hex,space_budget);destination=owned(WORK/'imports'/uuid.uuid4().hex)
+        old=stored_assets.stage(current_asset,jobs.current,WORK,WORK/'derived-assets'/uuid.uuid4().hex,space_budget);destination=owned(WORK/'imports'/uuid.uuid4().hex)
         payload=body.model_dump(exclude_none=True)
         try:revised,changed=material_revision.build_revision(old,WORK,destination,payload['factors'],bindings=payload['bindings'] or None)
         except FileNotFoundError as error:raise ValueError('필요한 texture가 저장 closure에 포함되지 않았습니다. 원본 경로를 복구하거나 texture를 다시 추가하세요.') from error
@@ -312,41 +399,65 @@ async def edit_material(asset_id:str,body:MaterialEdit):
         return public_asset(revised)
 
 @app.post('/api/assets/{asset_id}/textures')
-async def upload_textures(asset_id:str,files:list[UploadFile]=File(...)):
+async def upload_textures(asset_id:str,files:list[UploadFile]=File(...),expected_revision:str|None=Header(default=None,alias='X-Asset-Revision')):
     uid(asset_id)
     if is_busy():raise HTTPException(409,'Another operation is active')
     if asset_id not in assets or not assets[asset_id]['enabled']:raise HTTPException(404)
     async with lock:
-        old=stored_assets.stage(assets[asset_id],jobs.current,WORK,WORK/'derived-assets'/uuid.uuid4().hex,space_budget)
+        current_asset=require_asset_revision(asset_id,expected_revision)
+        old=stored_assets.stage(current_asset,jobs.current,WORK,WORK/'derived-assets'/uuid.uuid4().hex,space_budget)
         if old['metadata'].get('material_ready') is not True:raise ValueError('Manual textures require a ready canonical UV asset')
         if not 1<=len(files)<=8:raise ValueError('Upload1..8 PNG/JPG textures')
         space_budget(64*1024*1024)
-        folder=owned(WORK/'imports'/uuid.uuid4().hex);folder.mkdir(parents=True);sources={};total=0
-        for uploaded in files:
-            display=safe_name(uploaded.filename);suffix=Path(display).suffix.lower()
-            if suffix not in ('.png','.jpg','.jpeg'):raise ValueError('PNG/JPG textures only')
-            path=folder/('manual_'+uuid.uuid4().hex+suffix);size=0
-            with io_path(path).open('xb') as stream:
-                while raw:=await uploaded.read(1024*1024):
-                    size+=len(raw);total+=len(raw)
-                    if size>8*1024*1024 or total>64*1024*1024:raise ValueError('Manual texture upload budget')
-                    stream.write(raw)
-            texture_revision.upload_format(pbr_contract.read(path,8*1024*1024))
-            sources[path.name]=(path,display,sha(path))
-        output=folder/'canonical';output.mkdir()
-        registry=await asyncio.to_thread(import_contract.prepare_images,next(iter(sources.values()))[0],output)
-        revised=copy.deepcopy(old);manual={row['texture_id']:row for row in old.get('manual_textures',[])}
-        options={row['texture_id']:row for row in old.get('texture_options',[])}
-        for row in registry['textures']:
-            path,display,original_sha=sources[row['source_name']]
-            if sha(path)!=original_sha or row['source_sha256']!=original_sha:raise ValueError('Manual texture source changed')
-            row.update(source_path=str(path),source_name=display,source_kind='manual_uploaded')
-            provenance=folder/('manual_'+row['texture_id']+'.json');write(provenance,{k:row[k] for k in ('texture_id','content_sha256','source_name','source_sha256','width','height','channels','bit_depth')});row.update(provenance_path=str(provenance),provenance_sha256=sha(provenance))
-            manual.setdefault(row['texture_id'],row);chosen=manual[row['texture_id']];options[row['texture_id']]={k:chosen[k] for k in ('texture_id','source_name','source_kind','source_sha256','width','height')}
-        revised['manual_textures']=list(manual.values());revised['texture_options']=list(options.values())
-        manifest=pbr_contract.rawjson(pbr_contract.read(owned(revised['material_manifest']),1024*1024));texture_revision.library(revised,manifest)
-        staged=dict(assets);staged[asset_id]=revised;write(state_path,staged);assets[asset_id]=revised
-        return public_asset(revised)
+        import_id=uuid.uuid4().hex;folder=owned(WORK/'imports'/import_id);folder.mkdir(parents=True);sources={};total=0
+        conversion_started=False;catalog_write_started=False;catalog_before=None;promoted=False
+        try:
+            for uploaded in files:
+                display=safe_name(uploaded.filename);suffix=Path(display).suffix.lower()
+                if suffix not in ('.png','.jpg','.jpeg'):raise ValueError('PNG/JPG textures only')
+                path=folder/('manual_'+uuid.uuid4().hex+suffix);size=0
+                with io_path(path).open('xb') as stream:
+                    while raw:=await uploaded.read(1024*1024):
+                        size+=len(raw);total+=len(raw)
+                        if size>8*1024*1024 or total>64*1024*1024:raise ValueError('Manual texture upload budget')
+                        stream.write(raw)
+                try:texture_revision.upload_format(pbr_contract.read(path,8*1024*1024))
+                except UnidentifiedImageError as error:raise ValueError('Texture is not a decodable PNG/JPG image') from error
+                sources[path.name]=(path,display,sha(path))
+            output=folder/'canonical';output.mkdir()
+            conversion_started=True
+            registry=await asyncio.to_thread(import_contract.prepare_images,next(iter(sources.values()))[0],output)
+            revised=copy.deepcopy(old);manual={row['texture_id']:row for row in old.get('manual_textures',[])}
+            options={row['texture_id']:row for row in old.get('texture_options',[])}
+            for row in registry['textures']:
+                path,display,original_sha=sources[row['source_name']]
+                if sha(path)!=original_sha or row['source_sha256']!=original_sha:raise ValueError('Manual texture source changed')
+                row.update(source_path=str(path),source_name=display,source_kind='manual_uploaded')
+                provenance=folder/('manual_'+row['texture_id']+'.json');write(provenance,{k:row[k] for k in ('texture_id','content_sha256','source_name','source_sha256','width','height','channels','bit_depth')});row.update(provenance_path=str(provenance),provenance_sha256=sha(provenance))
+                manual.setdefault(row['texture_id'],row);chosen=manual[row['texture_id']];options[row['texture_id']]={k:chosen[k] for k in ('texture_id','source_name','source_kind','source_sha256','width','height')}
+            revised['manual_textures']=list(manual.values());revised['texture_options']=list(options.values())
+            manifest=pbr_contract.rawjson(pbr_contract.read(owned(revised['material_manifest']),1024*1024));texture_revision.library(revised,manifest)
+            staged=dict(assets);staged[asset_id]=revised
+            catalog_before=io_path(state_path).read_bytes() if io_path(state_path).exists() else None
+            catalog_write_started=True
+            write(state_path,staged);promoted=True;assets[asset_id]=revised
+            return public_asset(revised)
+
+        except BaseException as error:
+            # A cancelled conversion may still be running in its worker thread.
+            cleanup_ok=not promoted and (not conversion_started or isinstance(error,Exception) and process is None and not runtime_latched)
+            if cleanup_ok and catalog_write_started:
+                try:cleanup_ok=(io_path(state_path).read_bytes() if io_path(state_path).exists() else None)==catalog_before
+                except OSError:cleanup_ok=False
+            if cleanup_ok:
+                try:import_cleanup.clean(WORK,folder,import_id)
+                except Exception as cleanup_error:
+                    if isinstance(error,Exception):raise ValueError('Texture upload failed: '+str(error)+'; cleanup unconfirmed, preserved '+str(folder)+': '+str(cleanup_error)) from error
+                    import logging;logging.getLogger(__name__).warning('Texture cleanup not confirmed; preserved %s: %s',folder,cleanup_error)
+            elif not promoted:
+                if isinstance(error,Exception):raise ValueError('Texture upload failed: '+str(error)+'; cleanup unconfirmed, preserved '+str(folder)) from error
+                import logging;logging.getLogger(__name__).warning('Texture cleanup not confirmed; preserved %s',folder)
+            raise
 
 @app.get('/api/assets/{asset_id}/textures/{texture_id}')
 async def texture_preview(asset_id:str,texture_id:str,channel:str='rgb'):
@@ -393,21 +504,85 @@ async def mask(file:UploadFile=File(...)):
         with io_path(path).open('xb') as s:s.write(raw)
         return dict(mask_id=mid,sha256=sha(path),name=safe_name(file.filename))
 
+@app.post('/api/graph-mask')
+async def graph_mask(file:UploadFile=File(...),capture_json:str=Form(...)):
+    if is_busy():raise HTTPException(409,'Another operation is active')
+    async with lock:
+        raw=await file.read(FILE_LIMIT+1);claim=capture_json.encode('utf-8')
+        if len(raw)>FILE_LIMIT or len(claim)>graph_mask_handoff.LIMIT:raise ValueError('Graph mask byte budget')
+        from substance_physics_scatter import maskio
+        maskio.decode_black(raw);mid=uuid.uuid4().hex;folder=owned(WORK/'masks');folder.mkdir(parents=True,exist_ok=True)
+        path=owned(folder/(mid+'.png'));side=owned(folder/(mid+'.graph.json'))
+        with io_path(path).open('xb') as stream:stream.write(raw)
+        try:
+            value=graph_mask_handoff.validate(claim,path)
+            claim=json.dumps(value,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+            with io_path(side).open('xb') as stream:stream.write(claim)
+        except Exception:
+            io_path(path).unlink(missing_ok=True)
+            raise
+        return dict(mask_id=mid,sha256=hashlib.sha256(raw).hexdigest(),name='Designer Graph mask',provenance_sha256=graph_mask_handoff.digest(claim),provenance_trust=graph_mask_handoff.TRUST)
+
+@app.get('/api/designer-draft')
+async def get_designer_draft():
+    if designer_draft is None:raise HTTPException(404,'Send current settings from the viewer first')
+    return copy.deepcopy(designer_draft)
+
+@app.get('/api/designer-draft-state')
+async def get_designer_draft_state():
+    current=jobs.current
+    return dict(revision=designer_draft['revision'] if designer_draft else None,current_job_id=current['job_id'] if current else None)
+
+@app.post('/api/designer-draft')
+async def set_designer_draft(submission:DraftSubmit):
+    global designer_draft
+    if is_busy():raise HTTPException(409,'Wait for the active operation')
+    body=submission.settings
+    if body.designer_draft_revision is not None or body.expected_current_job_id is not None or body.graph_mask_provenance_sha256 is not None or body.mask_id is not None:raise ValueError('Designer Graph draft requires a fresh graph mask; do not send a prior mask')
+    if body.bake.height_max<=body.bake.height_min:raise ValueError('Height maximum must exceed minimum')
+    async with lock:
+        async with draft_lock:
+            if runtime_latched or process is not None or (task is not None and not task.done()):raise HTTPException(409,'Wait for the active operation')
+            current=jobs.current;current_id=current['job_id'] if current else None
+            old_revision=designer_draft['revision'] if designer_draft else None
+            if submission.expected_revision!=old_revision or submission.expected_current_job_id!=current_id:
+                raise HTTPException(409,'Designer 설정 또는 현재 결과가 변경됐습니다. 새로고침하고 다시 확인하세요.')
+            try:revisions=_draft_assets(body)
+            except ValueError as error:raise HTTPException(409,'선택한 자산이 변경됐습니다. 새로고침하고 다시 확인하세요.') from error
+            if revisions!=submission.expected_asset_revisions:raise HTTPException(409,'선택한 자산이 변경됐습니다. 새로고침하고 다시 확인하세요.')
+            settings=body.model_dump()
+            for k in ('designer_draft_revision','expected_current_job_id','graph_mask_provenance_sha256'):settings.pop(k)
+            designer_draft=dict(revision=uuid.uuid4().hex,current_job_id=current_id,settings=settings,asset_revisions=revisions)
+            return copy.deepcopy(designer_draft)
+
+@app.delete('/api/designer-draft/{revision}')
+async def clear_designer_draft(revision:str):
+    global designer_draft
+    uid(revision)
+    async with draft_lock:
+        if designer_draft is not None and designer_draft['revision']!=revision:raise HTTPException(409,'Designer 설정이 다른 창에서 변경됐습니다.')
+        if designer_draft is None:return dict(cleared=False)
+        designer_draft=None
+        return dict(cleared=True)
+
 def saved_source(body):
     previous=jobs.current
     if previous is None:raise ValueError('Saved 재베이크에는 이전 정상 배치가 필요합니다. 먼저 Simulate 하세요.')
     snapshot=(previous.get('local_review') or {}).get('snapshot')
     if not isinstance(snapshot,dict) or 'mask_id' not in snapshot:raise ValueError('Saved Mask 선택 근거가 없습니다. 먼저 새 배치를 계산하세요.')
     if body.mask_id!=snapshot['mask_id']:raise ValueError('Mask 선택이 변경됐습니다. Saved 재베이크는 저장된 Mask만 사용합니다. 원래 선택으로 복원하거나 Simulate 하세요.')
+    if body.graph_mask_provenance_sha256!=snapshot.get('graph_mask_provenance_sha256'):raise ValueError('Graph mask provenance changed; run a new simulation')
     return previous
 
 async def execute(body,token,*,rebake=False):
     global run_state
     async with lock:
         before=io_path(WORK/'jobs/current.json').read_bytes() if io_path(WORK/'jobs/current.json').exists() else None
-        snapshot=body.model_dump();cancelled=run_state['status']=='cancelling';run_state.update(status='preparing',events=[],error=None);live_registered=False
+        snapshot=_settings_snapshot(body)
+        cancelled=run_state['status']=='cancelling';run_state.update(status='preparing',events=[],error=None);live_registered=False
         try:
             if cancelled:raise InterruptedError('Cancelled before preparation')
+            _draft_guard(body)
             previous=saved_source(body) if rebake else None
             rows=[];records=[];source_current=previous if rebake else jobs.current
             for choice in body.assets:
@@ -416,7 +591,25 @@ async def execute(body,token,*,rebake=False):
                 a=stored_assets.stage(a,source_current,WORK,WORK/'derived-assets'/uuid.uuid4().hex,space_budget);records.append(a)
                 rows.append(dict(asset_id=choice.asset_id,path=str(owned(a['physics'])),format='obj',scale=choice.scale,weight=choice.weight))
             if len({r['asset_id'] for r in rows})!=len(rows):raise ValueError('Duplicate asset selection')
-            mask=None
+            mask=None;graph_claim=None
+            if body.graph_mask_provenance_sha256 is not None:
+                if body.mask_id is None:raise ValueError('Graph provenance requires its mask')
+                if rebake:
+                    from substance_physics_scatter import maskio
+                    ref=(previous.get('local_review') or {}).get('graph_mask_source')
+                    if not isinstance(ref,dict) or set(ref)!={'path','sha256'} or ref['path']!=graph_mask_handoff.NAME:raise ValueError('Saved Graph provenance is missing')
+                    prior=owned(Path(previous['result_path']).parent/graph_mask_handoff.NAME)
+                    raw=io_path(prior).read_bytes()
+                    if graph_mask_handoff.digest(raw)!=ref['sha256']:raise ValueError('Saved Graph provenance changed')
+                    rec=graph_mask_handoff.verify_job(raw,previous,jobs.directory)
+                    graph_claim=json.dumps(rec['claim'],sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+                    mask_path=maskio.cache_path(jobs.directory,rec['mask_sha256'])
+                else:
+                    mask_path=owned(WORK/'masks'/(uid(body.mask_id)+'.png'));side=owned(WORK/'masks'/(uid(body.mask_id)+'.graph.json'))
+                    if io_path(side).is_symlink() or not io_path(side).is_file() or io_path(side).stat().st_size>graph_mask_handoff.LIMIT:raise ValueError('Graph mask provenance is missing')
+                    graph_claim=io_path(side).read_bytes()
+                if graph_mask_handoff.digest(graph_claim)!=body.graph_mask_provenance_sha256:raise ValueError('Graph mask provenance changed')
+                graph_mask_handoff.validate(graph_claim,mask_path)
             if rebake:
                 if any(assets[row['asset_id']]['metadata'].get('material_ready') is not True for row in rows):raise ValueError('Saved 재베이크는 N2 재질 입력이 준비된 자산만 지원합니다.')
                 request=await asyncio.to_thread(jobs.prepare,rows,body.simulation.model_dump(),body.bake.model_dump(),rebake=True,host_mode='saved_input')
@@ -446,6 +639,11 @@ async def execute(body,token,*,rebake=False):
             if run_state['status']=='cancelling':raise InterruptedError('Cancelled during result validation')
             if sha(binary)!=before_binary:raise ValueError('Review binary changed during execution')
             candidate['local_review']=dict(input_mode='saved_input' if rebake else 'current_file',snapshot=snapshot,settings_hash=identity(snapshot),token=token,job_id=job_id,asset_renders=index['renders'],source_closure=closure,pbr_unavailable=index['pbr_unavailable'],review=dict(event=events[-1],build_fingerprint=fingerprint,binary_sha256=before_binary))
+            if graph_claim is not None:
+                graph_raw=graph_mask_handoff.make_job(job_id,candidate['request'],graph_claim,mask_path,'saved_input' if rebake else 'captured')
+                graph_path=Path(request).parent/graph_mask_handoff.NAME
+                with io_path(graph_path).open('xb') as stream:stream.write(graph_raw)
+                candidate['local_review']['graph_mask_source']=dict(path=graph_mask_handoff.NAME,sha256=graph_mask_handoff.digest(graph_raw))
             await asyncio.to_thread(result_bundle.get,candidate,WORK)
             if rebake:
                 inherited,reason=await asyncio.to_thread(stored_hulls.preserve,previous,candidate,WORK,space_budget)
@@ -454,6 +652,7 @@ async def execute(body,token,*,rebake=False):
                 await asyncio.to_thread(result_bundle.get,candidate,WORK)
             await asyncio.to_thread(job_assets.verify,index,WORK,True)
             if run_state['status']=='cancelling' or run_state['token']!=token:raise InterruptedError('Cancelled during review validation')
+            _draft_guard(body)
             if sha(binary)!=before_binary:raise ValueError('Review binary changed before promotion')
             jobs.promote(candidate)
             run_state.update(status='completed')
@@ -469,7 +668,9 @@ async def execute(body,token,*,rebake=False):
 def queue_run(body,*,rebake=False):
     global task,run_state
     if is_busy():raise HTTPException(409,'One job at a time; unconfirmed process cleanup requires operator inspection')
+    _draft_guard(body)
     if not PBR_WORKER.is_file():raise ValueError('Registered PBR worker unavailable')
+    if body.simulation.placement_jitter and not jitter_ready():raise ValueError('위치 분산을 지원하는 등록된 워커가 필요합니다. 워커를 다시 빌드하고 등록하세요.')
     if body.simulation.edges=='periodic':
         if not periodic_ready():raise ValueError('실제 주기 경계 런타임의 검증·연결이 아직 완료되지 않았습니다.')
         if any(not assets.get(a.asset_id,{}).get('metadata',{}).get('material_ready') for a in body.assets):raise ValueError('주기 경계는 UV/PBR 재질 입력이 준비된 자산을 선택하세요.')
@@ -478,7 +679,7 @@ def queue_run(body,*,rebake=False):
         if not PBR_WORKER.is_file():raise ValueError('Verified N2 worker unavailable')
     space_budget()
     if body.bake.height_max<=body.bake.height_min:raise ValueError('Height maximum must exceed minimum')
-    token=uuid.uuid4().hex;run_state=dict(status='queued',token=token,settings_hash=identity(body.model_dump()),events=[],error=None)
+    token=uuid.uuid4().hex;run_state=dict(status='queued',token=token,settings_hash=identity(_settings_snapshot(body)),events=[],error=None)
     task=asyncio.create_task(execute(body,token,rebake=rebake));return dict(token=token,settings_hash=run_state['settings_hash'])
 @app.post('/api/run')
 async def run(body:Run):return queue_run(body)
@@ -499,6 +700,19 @@ async def export_result(job_id:str):
     async with lock:
         raw=await asyncio.to_thread(result_export.build,c,WORK)
     return Response(raw,media_type='application/zip',headers={'Content-Disposition':f'attachment; filename="scatter-result-{job_id}.zip"','X-Archive-SHA256':hashlib.sha256(raw).hexdigest()})
+
+@app.get('/api/designer-handoff/{job_id}')
+async def designer_handoff_manifest(job_id:str):
+    uid(job_id)
+    if is_busy():raise HTTPException(409,'Wait for the active operation before applying to Designer')
+    async with lock:
+        c=jobs.current
+        if not c or c['job_id']!=job_id:raise HTTPException(404,'Only the current verified result can be applied')
+        bundle=await asyncio.to_thread(result_bundle.get,c,WORK)
+        manifest=designer_handoff.manifest(c,bundle)
+        current=jobs.current
+        if runtime_latched or process is not None or (task is not None and not task.done()) or not current or current['job_id']!=job_id or identity(current)!=identity(c):raise HTTPException(409,'Current result changed during validation')
+        return manifest
 
 @app.get('/api/maps/{job_id}/{channel}')
 async def maps(job_id:str,channel:str,preview:str|None=None):

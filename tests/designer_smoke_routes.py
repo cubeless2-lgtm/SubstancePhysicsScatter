@@ -6,6 +6,19 @@ import os,stat
 
 ROOT=Path(__file__).resolve().parents[1]
 ROUTES={
+    'material_panel_actual':'designer_material_panel_actual.py',
+    'settings_shutdown_retry_actual':'designer_settings_shutdown_retry_actual.py',
+    'settings_upload_shutdown_actual':'designer_settings_upload_shutdown_actual.py',
+    'viewer_settings_shutdown_actual':'designer_viewer_settings_shutdown_actual.py',
+    'viewer_latest_upgrade_actual':'designer_viewer_latest_upgrade_actual.py',
+    'viewer_autostart_actual':'designer_viewer_autostart_actual.py',
+    'viewer_settings_actual':'designer_viewer_settings_actual.py',
+    'viewer_refresh_actual':'designer_viewer_refresh_actual.py',
+    'graph_viewer_upgrade_actual':'designer_graph_viewer_upgrade_actual.py',
+    'graph_viewer_panel_actual':'designer_graph_viewer_panel_actual.py',
+    'panel_upgrade_actual':'designer_panel_upgrade_actual.py',
+    'external_panel_actual':'designer_external_panel_actual.py',
+    'external_apply_actual':'designer_external_apply_actual.py',
     'file_mask':'designer_file_mask.py',
     'managed_bridge_actual':'designer_bridge_managed_actual.py',
     'full_stock_original':'designer_full_stock_reference.py',

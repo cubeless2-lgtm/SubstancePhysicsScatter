@@ -4,7 +4,7 @@ from pathlib import Path
 from PIL import Image
 from substance_physics_scatter.fileio import io_path,logical_path
 from substance_physics_scatter import compat,motion,local_workers
-import review_contract as n1,pbr_contract as n2,job_assets,height_field
+import review_contract as n1,pbr_contract as n2,job_assets,height_field,graph_mask_handoff
 
 PRODUCERS={
  '0.4.0-review.1':('22e437137c077fa985b8298b96486812009af77e2ee3f1cf4205705c4523b338','95dd1a2e893872c1f889cea0f2a545f497b3f5a44d79f3fb2f5c9d8e8052a572'),
@@ -81,6 +81,15 @@ def get(candidate,work):
     result_raw=n2.read(root/'result.json',16*1024*1024);observe(root/'result.json',result_raw)
     check_result_snapshot(n2.rawjson(result_raw),c,root,sealed)
     saved=c.get('local_review') or {};review=saved.get('review');doc=None;hulls=None;decoded={};original={};descriptors={}
+    graph_ref=saved.get('graph_mask_source');graph_claim=(saved.get('snapshot') or {}).get('graph_mask_provenance_sha256')
+    if bool(graph_ref)!=bool(graph_claim):raise ValueError('Graph mask provenance reference differs')
+    if graph_ref:
+        n2.exact(graph_ref,('path','sha256'))
+        if graph_ref['path']!=graph_mask_handoff.NAME:raise ValueError('Invalid Graph provenance path')
+        raw=sealed(root/graph_mask_handoff.NAME,graph_ref['sha256'],graph_mask_handoff.LIMIT+4096)
+        record=graph_mask_handoff.verify_job(raw,c,root.parent.parent)
+        canonical=json.dumps(record['claim'],sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+        if graph_mask_handoff.digest(canonical)!=graph_claim:raise ValueError('Graph provenance claim identity differs')
     if review:
         n2.exact(review,('event','build_fingerprint','binary_sha256'));ref=review['event']['review'];side_raw=sealed(root/'review-v1.json',ref['sha256'],byte_count=ref['bytes']);side=n2.rawjson(side_raw);implementation=side['producer']['implementation_version']
         producer_pair=(review['build_fingerprint'],review['binary_sha256'])

@@ -140,6 +140,9 @@ def build(current,work):
             f'Hull status: {hull}. An inherited Hull includes its sealed direct-origin proof; no synthetic Hull is generated.\n'
             'Only the selected job closure and referenced provenance are included; no external directory scan.\n'
             'Export requires every referenced historical raw blob inside this job. Some repeated Saved jobs lack transitive blobs and are rejected; Saved rebaking itself remains supported.\n')
+    if c.get('local_review',{}).get('graph_mask_source'):
+        readme+=('The job/viewer-graph-mask-v1.json companion records a client-claimed Designer capture. '
+                 'Its bytes and mask identity are checked; this is not independent proof that Designer produced the capture.\n')
     archive.add('README.txt',readme.encode('utf-8'))
     # Manifest covers all payload entries (not its own impossible self hash).
     aliases={row['original_locator']:row['archive_path'] for row in archive.rows if row['original_locator'] is not None}

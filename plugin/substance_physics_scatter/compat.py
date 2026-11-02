@@ -40,8 +40,11 @@ def periodic_identity(value):
 
 def simulation(raw,*,version=1):
     input_version(version)
-    if not isinstance(raw,dict) or set(raw)-set(DEFAULTS):raise ValueError("Unknown simulation field/global scale")
+    if not isinstance(raw,dict) or set(raw)-(set(DEFAULTS)|{"placement_jitter"}):raise ValueError("Unknown simulation field/global scale")
     result=dict(DEFAULTS);result.update(raw)
+    jitter=result.pop("placement_jitter",False)
+    if type(jitter) is not bool:raise ValueError("Invalid placement_jitter")
+    if jitter:result["placement_jitter"]=True
     for name,low,high in (("count",1,5000),("seed",0,4294967295),("width",.1,1000),("depth",.1,1000),("seconds",.1,120),("friction",0,2),("restitution",0,1)):
         value=result[name]
         if type(value) not in (int,float) or not math.isfinite(value) or not low<=value<=high:raise ValueError("Invalid simulation "+name)
@@ -83,7 +86,7 @@ def stored_inputs(wanted,version):
     if version==3:
         if type(wanted) is not dict or set(wanted)!={"physics_input_format_version","assets","simulation","scatter_mask","periodic"} or type(wanted["physics_input_format_version"]) is not int or wanted["physics_input_format_version"]!=3:raise ValueError(RESIM+" Input3 physical keys/version")
         periodic_identity(wanted["periodic"])
-        if type(wanted["simulation"]) is not dict or set(wanted["simulation"])!=set(DEFAULTS):raise ValueError(RESIM+" Input3 simulation keys")
+        if type(wanted["simulation"]) is not dict or set(wanted["simulation"]) not in (set(DEFAULTS),set(DEFAULTS)|{"placement_jitter"}):raise ValueError(RESIM+" Input3 simulation keys")
         if type(wanted["assets"]) is not list or any(type(r) is not dict or set(r)!={"asset_id","content_hash","format","weight","scale"} for r in wanted["assets"]):raise ValueError(RESIM+" Input3 asset keys")
         if wanted["scatter_mask"] is not None and (type(wanted["scatter_mask"]) is not dict or set(wanted["scatter_mask"])!=set(maskio.POLICY)|{"content_hash"}):raise ValueError(RESIM+" Input3 Mask identity keys")
     result=inputs(wanted["assets"],wanted["simulation"],wanted.get("scatter_mask"),version)

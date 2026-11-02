@@ -40,7 +40,7 @@ static void execution_metrics(const json& value,const json& request){
 }
 static json normalized_sim(const json& source,int version=2){
     json result={{"count",40},{"width",4.0},{"depth",4.0},{"seconds",12.0},{"seed",1},{"edges","walls"},{"friction",.6},{"restitution",.05}};
-    require(source.is_object(),"Invalid simulation object");if(input3(version))require(source.size()==result.size(),"Input3 requires exact simulation keys");for(auto it=source.begin();it!=source.end();++it){require(result.contains(it.key()),"Unknown simulation field/global scale");result[it.key()]=it.value();}
+    require(source.is_object(),"Invalid simulation object");if(input3(version))require(source.size()==result.size()||(source.size()==result.size()+1&&source.contains("placement_jitter")),"Input3 requires exact simulation keys");for(auto it=source.begin();it!=source.end();++it){if(it.key()=="placement_jitter"){require(it.value().is_boolean(),"Invalid placement_jitter");if(it.value().get<bool>())result[it.key()]=true;continue;}require(result.contains(it.key()),"Unknown simulation field/global scale");result[it.key()]=it.value();}
     for(auto name:{"count","seed","width","depth","seconds","friction","restitution"}){
         require(result[name].is_number()&&!result[name].is_boolean(),"Invalid simulation number/bool");double value=result[name].get<double>();require(std::isfinite(value),"Non-finite simulation number");
         if(std::string(name)=="count")require(result[name].is_number_integer()&&value>=1&&value<=5000,"Invalid count");

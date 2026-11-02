@@ -126,6 +126,8 @@ def result_directory(graph):
 
 def update(graph, candidate, pending_config=None):
     """Stage all bitmaps before touching stable output nodes; rollback on failure."""
+    if (settings(graph) or {}).get('external_current'):
+        raise ValueError('External viewer result is active; apply another viewer result to keep all output channels consistent')
     package = graph.getPackage()
     staged = []
     outputs = {}

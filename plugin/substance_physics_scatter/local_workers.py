@@ -8,7 +8,6 @@ import hashlib,json,os,re
 
 ROOT=Path(__file__).resolve().parents[2]
 REGISTRY=ROOT/'local_review/workspace/worker-registry.json'
-BUILD=ROOT/'build-review-live-ready1'
 MODES=('legacy','pbr','periodic')
 HEX=re.compile(r'^[0-9a-f]{64}$')
 
@@ -45,3 +44,24 @@ def register():
     return rows
 
 def pairs(mode):return {(r['fingerprint'],r['sha256']) for r in load() if r['mode']==mode}
+
+
+def supports_jitter(build,mode):
+    try:
+        material=build/(mode+'-build-inputs.txt');fp=(build/(mode+'-build-fingerprint.txt')).read_text(encoding='utf-8').strip()
+        binary=build/'Release'/('scatter_worker_'+mode+'_live.exe')
+        if digest(material)!=fp or (fp,digest(binary)) not in pairs(mode):return False
+        lines=material.read_text(encoding='utf-8').splitlines()
+        return all(('worker/'+name+'='+digest(ROOT/'worker'/name)) in lines for name in ('main.cpp','compatibility.h'))
+    except (OSError,ValueError,TypeError):return False
+
+def build_directory(selection=None):
+    choice=os.environ.get('SCATTER_LIVE_BUILD','auto') if selection is None else selection
+    names={'standard':'build-review-live-ready1','jitter':'build-review-live-jitter1'}
+    if choice=='auto':
+        candidate=ROOT/names['jitter']
+        return candidate if all(supports_jitter(candidate,m) for m in ('pbr','periodic')) else ROOT/names['standard']
+    if choice not in names:raise ValueError('Unsupported SCATTER_LIVE_BUILD selection')
+    return ROOT/names[choice]
+
+BUILD=build_directory()

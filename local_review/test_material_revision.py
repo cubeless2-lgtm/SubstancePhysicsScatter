@@ -62,10 +62,10 @@ class MaterialRevision(unittest.TestCase):
         catalog={self.old['asset_id']:copy.deepcopy(self.old)};state=self.root/'assets.json';state.write_text(json.dumps(catalog),encoding='utf-8');before=state.read_bytes()
         with patch.multiple(s,WORK=self.root,state_path=state,assets=catalog,lock=asyncio.Lock()),patch.object(s,'is_busy',return_value=False),patch.object(s,'space_budget'):
             if fail:
-                with patch.object(s,'write',side_effect=OSError('TEST_ONLY atomic write failure')),self.assertRaises(OSError):asyncio.run(s.edit_material(self.old['asset_id'],body))
+                with patch.object(s,'write',side_effect=OSError('TEST_ONLY atomic write failure')),self.assertRaises(OSError):asyncio.run(s.edit_material(self.old['asset_id'],body,s.identity(catalog[self.old['asset_id']])))
                 self.assertEqual(catalog[self.old['asset_id']],self.old);self.assertEqual(state.read_bytes(),before)
             else:
-                result=asyncio.run(s.edit_material(self.old['asset_id'],body));self.assertEqual(result['asset_id'],self.old['asset_id']);self.assertEqual(result['metadata']['material_records'][0]['roughness_factor'],.2);self.assertEqual(json.loads(state.read_bytes())[self.old['asset_id']],catalog[self.old['asset_id']])
+                result=asyncio.run(s.edit_material(self.old['asset_id'],body,s.identity(catalog[self.old['asset_id']])));self.assertEqual(result['asset_id'],self.old['asset_id']);self.assertEqual(result['metadata']['material_records'][0]['roughness_factor'],.2);self.assertEqual(json.loads(state.read_bytes())[self.old['asset_id']],catalog[self.old['asset_id']])
     def test_direct_handler_success_and_catalog_write_failure_preserve_current(self):
         current=self.root/'current.json';current.write_bytes(b'CURRENT_AND_OLD_JOB_GLB_UNCHANGED')
         body=s.MaterialEdit(factors={'0':dict(roughness_factor=.2)})

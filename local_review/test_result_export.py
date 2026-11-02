@@ -126,4 +126,22 @@ class ResultExport(unittest.TestCase):
             with patch.object(s,'is_busy',return_value=True),self.assertRaises(s.HTTPException):await s.export_result(c['job_id'])
         asyncio.run(exercise())
 
+    def test_graph_companion_is_archived_and_tampering_is_rejected(self):
+        c,root,paths=self.fixture();claim={'TEST_ONLY':'claimed Designer capture'}
+        claim_raw=json.dumps(claim,sort_keys=True,separators=(',',':'),allow_nan=False).encode()
+        raw=json.dumps({'TEST_ONLY':'sealed Graph companion'}).encode();path=root/'viewer-graph-mask-v1.json';path.write_bytes(raw)
+        c['local_review']['snapshot']={'graph_mask_provenance_sha256':e.digest(claim_raw)}
+        c['local_review']['graph_mask_source']={'path':path.name,'sha256':e.digest(raw)}
+        (self.work/'jobs/current.json').write_bytes(json.dumps(c).encode())
+        with patch.object(result_bundle.graph_mask_handoff,'verify_job',return_value={'claim':claim}):
+            zipped=self.build(c,paths)
+            with zipfile.ZipFile(io.BytesIO(zipped)) as z:
+                self.assertEqual(z.read('job/viewer-graph-mask-v1.json'),raw)
+                manifest=json.loads(z.read('manifest.json'))
+                row=next(x for x in manifest['files'] if x['archive_path']=='job/viewer-graph-mask-v1.json')
+                self.assertEqual(row['sha256'],e.digest(raw));self.assertFalse(manifest['import_restore_supported'])
+                self.assertIn(b'client-claimed Designer capture',z.read('README.txt'))
+            path.write_bytes(raw+b'changed')
+            with self.assertRaises(ValueError):self.build(c,paths)
+
 if __name__=='__main__':unittest.main(verbosity=2)
